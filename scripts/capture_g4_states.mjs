@@ -1,0 +1,16 @@
+import { chromium } from "playwright";
+import { createServer } from "node:http";
+import { readFile } from "node:fs/promises";
+const browser = await chromium.launch({ executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", headless: true });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+const css = await readFile("ui/app/styles.css", "utf8") + await readFile("ui/app/components.css", "utf8");
+const fixtureJs = (await readFile("ui/app/fixtures.js", "utf8")).replaceAll("export ", "");
+const appJs = (await readFile("ui/app/app.js", "utf8")).replace(/^import .*?;\r?\n/, "");
+const snapshot = `<main id="app"></main><style>${css}</style><script>${fixtureJs}\n${appJs}</script>`;
+await page.setContent(snapshot.replace("<main id=", "<script>location.hash='programme'</script><main id="), { waitUntil: "domcontentloaded" });
+await page.evaluate(() => { document.querySelector("#drawer").hidden = false; });
+await page.screenshot({ path: "evidence/g4-route-screenshots/programme-provenance-open.png", fullPage: true });
+await page.setContent(snapshot.replace("<main id=", "<script>location.hash='admin'</script><main id="), { waitUntil: "domcontentloaded" });
+await page.screenshot({ path: "evidence/g4-route-screenshots/admin-state-gallery.png", fullPage: true });
+await browser.close();
+console.log("Captured provenance and state-gallery screenshots");
