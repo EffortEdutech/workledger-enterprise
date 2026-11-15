@@ -3,7 +3,7 @@ import { readBoqProvenance, readContractChronology, readDiaryEvidence, readProgr
 import { authorizeRead } from "./authorization.js";
 import { auditFixtures, readAuditPackage } from "./audit.js";
 import { supabaseConfig } from "./supabase-config.js";
-import { clearSession, readScope, readSession, signIn } from "./auth.js";
+import { clearSession, readScope, readScopedRows, readSession, signIn } from "./auth.js";
 
 const initialView = window.location.hash.slice(1);
 const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending", session: readSession(), scope: null, authRows: null, authState: "signed-out", authMessage: "Sign in with a synthetic staging user." };
