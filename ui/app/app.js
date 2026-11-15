@@ -6,14 +6,14 @@ import { supabaseConfig } from "./supabase-config.js";
 import { clearSession, readScope, readScopedRows, readSession, signIn } from "./auth.js";
 
 const initialView = window.location.hash.slice(1);
-const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending", session: readSession(), scope: null, authRows: null, authState: "signed-out", authMessage: "Sign in with a synthetic staging user." };
+const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending", session: readSession(), scope: null, authRows: null, authState: readSession() ? "loading" : "signed-out", authMessage: "Sign in with a synthetic staging user." };
 const root = document.querySelector("#app");
 const titleMap = Object.fromEntries(navItems.map((item) => [item.id, item.label]));
 let readModels = { context: readProjectContext(), programme: readProgramme(), boq: readBoqProvenance(), diary: readDiaryEvidence(), chronology: readContractChronology() };
 const auditPackage = readAuditPackage();
 const previewIdentityByRole = Object.fromEntries(roles.map((role) => [role.id, `user-preview-${role.id}`]));
 function can(capability) { return state.role.capabilities.includes(capability); }
-function authPanel() { if (state.session) { const appointment = state.scope?.[0]; const label = state.authState === "revoked" ? "Appointment revoked" : state.authState === "denied" ? "Scope denied · no rows available" : "Scoped read verified"; const kind = state.authState === "allowed" ? "good" : "warn"; return '<div class="auth-panel"><span>Authenticated: '+(state.session.user?.email || "synthetic user")+' · '+(appointment?.appointment_scope || "scope loading")+' '+pill(label,kind)+'</span><button class="btn" data-signout>Sign out</button></div>'; } return '<form class="auth-panel" id="auth-form"><input name="email" type="email" required placeholder="Synthetic user email" aria-label="Synthetic user email"><input name="password" type="password" required placeholder="Synthetic user password"><button class="btn primary" type="submit">Sign in</button><span class="muted">'+state.authMessage+'</span></form>'; }
+function authPanel() { if (state.session) { const appointment = state.scope?.[0]; const label = state.authState === "loading" ? "Scope loading" : state.authState === "revoked" ? "Appointment revoked" : state.authState === "denied" ? "Scope denied · no rows available" : "Scoped read verified"; const kind = state.authState === "allowed" ? "good" : "warn"; return '<div class="auth-panel"><span>Authenticated: '+(state.session.user?.email || "synthetic user")+' · '+(appointment?.appointment_scope || "scope loading")+' '+pill(label,kind)+'</span><button class="btn" data-signout>Sign out</button></div>'; } return '<form class="auth-panel" id="auth-form"><input name="email" type="email" required placeholder="Synthetic user email" aria-label="Synthetic user email"><input name="password" type="password" required placeholder="Synthetic user password"><button class="btn primary" type="submit">Sign in</button><span class="muted">'+state.authMessage+'</span></form>'; }
 function pill(label, kind = "") { return '<span class="pill '+kind+'">'+label+"</span>"; }
 function metric(label, value, note) { return '<div class="card metric"><small>'+label+"</small><strong>"+value+"</strong><span>"+note+"</span></div>"; }
 function table(headers, rows) { return '<div class="table-wrap"><table><thead><tr>'+headers.map((h) => "<th>"+h+"</th>").join("")+"</tr></thead><tbody>"+rows.join("")+"</tbody></table></div>"; }
@@ -76,5 +76,7 @@ async function hydrateSupabaseReadModels() {
   }
   render();
 }
+async function rehydrateAuthSession() { if (!state.session) return; try { state.scope = await readScope(state.session); state.authRows = await readScopedRows(state.session); const appointment = state.scope?.[0]; state.authState = appointment?.appointment_status === "revoked" ? "revoked" : appointment && state.authRows.length ? "allowed" : "denied"; } catch (error) { console.error("WorkLedger session rehydration failed", { code: error?.message || "unknown" }); clearSession(); state.session = null; state.scope = null; state.authRows = null; state.authState = "signed-out"; state.authMessage = "Session expired or scope denied."; } render(); }
 render();
 hydrateSupabaseReadModels();
+rehydrateAuthSession();
