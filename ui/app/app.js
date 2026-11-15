@@ -5,7 +5,8 @@ import { auditFixtures, readAuditPackage } from "./audit.js";
 import { supabaseConfig } from "./supabase-config.js";
 import { clearSession, readScope, readScopedRows, readSession, signIn } from "./auth.js";
 
-const initialView = window.location.hash.slice(1);\nconst uatExpired = new URLSearchParams(window.location.search).get("uat") === "expired";\nconst initialSession = uatExpired ? { access_token: "expired.synthetic.token", user: { email: "synthetic-expired@test.workledger.local" } } : readSession();
+const initialView = window.location.hash.slice(1);
+const uatExpired = new URLSearchParams(window.location.search).get("uat") === "expired";\nconst initialSession = uatExpired ? { access_token: "expired.synthetic.token", user: { email: "synthetic-expired@test.workledger.local" } } : readSession();
 const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending", session: initialSession, scope: null, authRows: null, authState: initialSession ? "loading" : "signed-out", authMessage: "Sign in with a synthetic staging user." };
 const root = document.querySelector("#app");
 const titleMap = Object.fromEntries(navItems.map((item) => [item.id, item.label]));
