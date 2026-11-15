@@ -48,6 +48,7 @@ function render() {
   root.querySelector(".role").addEventListener("change", (event) => { state.role = roles.find((role) => role.id === event.target.value); render(); });
   root.querySelector(".search").addEventListener("input", (event) => { state.query = event.target.value; });
   root.querySelectorAll("[data-action]").forEach((button) => button.addEventListener("click", () => window.alert("Prototype action only. No backend call occurs.")));
+  root.querySelectorAll("[data-state]").forEach((button) => button.addEventListener("click", () => { const panel = button.closest(".card"); if (panel) panel.insertAdjacentHTML("beforeend", statePanel(button.dataset.state)); }));
   root.querySelectorAll("[data-drawer]").forEach((button) => button.addEventListener("click", () => { let drawer=root.querySelector("#drawer"); if(!drawer){ root.insertAdjacentHTML("beforeend", provenanceDrawer()); drawer=root.querySelector("#drawer"); root.querySelectorAll("[data-close-drawer]").forEach((close) => close.addEventListener("click", () => { drawer.hidden=true; })); } drawer.hidden=false; }));
   root.querySelectorAll("[data-close-drawer]").forEach((button) => button.addEventListener("click", () => { const drawer=root.querySelector("#drawer"); if(drawer) drawer.hidden=true; }));
 }
