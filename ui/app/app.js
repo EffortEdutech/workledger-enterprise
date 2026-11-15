@@ -8,7 +8,7 @@ const initialView = window.location.hash.slice(1);
 const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending" };
 const root = document.querySelector("#app");
 const titleMap = Object.fromEntries(navItems.map((item) => [item.id, item.label]));
-const readModels = { context: readProjectContext(), programme: readProgramme(), boq: readBoqProvenance(), diary: readDiaryEvidence(), chronology: readContractChronology() };
+let readModels = { context: readProjectContext(), programme: readProgramme(), boq: readBoqProvenance(), diary: readDiaryEvidence(), chronology: readContractChronology() };
 const auditPackage = readAuditPackage();
 const previewIdentityByRole = Object.fromEntries(roles.map((role) => [role.id, `user-preview-${role.id}`]));
 function can(capability) { return state.role.capabilities.includes(capability); }
@@ -53,11 +53,17 @@ function render() {
   root.querySelectorAll("[data-drawer]").forEach((button) => button.addEventListener("click", () => { let drawer=root.querySelector("#drawer"); if(!drawer){ root.insertAdjacentHTML("beforeend", provenanceDrawer()); drawer=root.querySelector("#drawer"); root.querySelectorAll("[data-close-drawer]").forEach((close) => close.addEventListener("click", () => { drawer.hidden=true; })); } drawer.hidden=false; }));
   root.querySelectorAll("[data-close-drawer]").forEach((button) => button.addEventListener("click", () => { const drawer=root.querySelector("#drawer"); if(drawer) drawer.hidden=true; }));
 }
-async function hydrateSupabaseReadStatus() {
+async function hydrateSupabaseReadModels() {
   try {
-    const response = await fetch(supabaseConfig.url + "/rest/v1/wle_staging_read_model?select=record_type,source_system,source_record_id&limit=1", { headers: { apikey: supabaseConfig.publishableKey, Authorization: "Bearer " + supabaseConfig.publishableKey } });
-    if (!response.ok) throw new Error("read status " + response.status);
+    const response = await fetch(supabaseConfig.url + "/rest/v1/wle_staging_read_model?select=record_type,source_system,source_record_id,source_revision,source_digest,payload&order=record_type", { headers: { apikey: supabaseConfig.publishableKey, Authorization: "Bearer " + supabaseConfig.publishableKey } });
+    if (!response.ok) throw new Error("read model " + response.status);
     const rows = await response.json();
+    const byType = Object.fromEntries(rows.map((row) => [row.record_type, row]));
+    if (byType.project_context) readModels.context = { ...readModels.context, source: "supabase.synthetic.project_context", data: { ...readModels.context.data, project: { ...readModels.context.data.project, ...byType.project_context.payload }, contract: { ...readModels.context.data.contract, number: byType.project_context.payload.contract_number, status: byType.project_context.payload.status } } };
+    if (byType.programme_task) readModels.programme = { ...readModels.programme, source: "supabase.synthetic.programme_task", data: { ...readModels.programme.data, tasks: readModels.programme.data.tasks.map((task) => task.id === byType.programme_task.source_record_id ? { ...task, ...byType.programme_task.payload } : task) } };
+    if (byType.boq_line) readModels.boq = { ...readModels.boq, source: "supabase.synthetic.boq_line", data: { ...readModels.boq.data, lines: [{ ...readModels.boq.data.lines[0], ...byType.boq_line.payload }] } };
+    if (byType.diary_evidence) readModels.diary = { ...readModels.diary, source: "supabase.synthetic.diary_evidence", data: { ...readModels.diary.data, diary: { ...readModels.diary.data.diary, ...byType.diary_evidence.payload }, evidence: readModels.diary.data.evidence.map((item) => item.id === byType.diary_evidence.source_record_id ? { ...item, ...byType.diary_evidence.payload } : item) } };
+    if (byType.chronology_event) readModels.chronology = { ...readModels.chronology, source: "supabase.synthetic.chronology_event", data: { ...readModels.chronology.data, events: [{ ...readModels.chronology.data.events[0], ...byType.chronology_event.payload, id: byType.chronology_event.source_record_id }] } };
     state.supabaseStatus = rows.length ? "connected · synthetic read" : "connected · empty";
   } catch {
     state.supabaseStatus = "fixture fallback";
@@ -65,4 +71,4 @@ async function hydrateSupabaseReadStatus() {
   render();
 }
 render();
-hydrateSupabaseReadStatus();
+hydrateSupabaseReadModels();
