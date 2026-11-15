@@ -506,6 +506,8 @@ Update this table whenever a goal changes state. Use one row per meaningful even
 | 2026-11-16 | G23 | COMPLETE | Local dirty workspace checkpointed at `c4209b2`, reconciled with authoritative G22 source, committed as `db59e0a`, pushed to `codex/g23-local-reconciliation`, deployed READY as `dpl_AR51jm9EyM1L1MYP22psyvKR5wRZ`, and promoted to stable; 130 tests pass; Auth hardening remains the pre-production gate | docs/G23_LOCAL_WORKSPACE_RECONCILIATION_AND_RELEASE.md; GitHub branch; Vercel stable alias | Overall Project Owner |
 | 2026-11-16 | G24 | COMPLETE | Verified Supabase organization is Free tier, where leaked-password protection is unavailable; advisor and Auth state readback recorded; 130 tests and syntax checks pass; GO for controlled synthetic staging and NO-GO for non-synthetic use until plan upgrade and Auth protection enablement | docs/G24_SUPABASE_AUTH_SECURITY_HARDENING.md; Supabase project `gumlaaqfxxkdlwuusfhv`; Supabase organization `yibefgglaxtymfgywuzo` | Overall Project Owner |
 | 2026-11-16 | G25 | COMPLETE | Full pre-production gate audited: Supabase healthy but Free-tier Auth protection unavailable; RLS/read-only, source pins, Vercel stable deployment, routes, UAT, rollback, evidence, and 130-test regression all pass; final decision GO for internal synthetic staging / NO-GO for pre-production, production, customer data, external users, and writes | docs/G25_PRE_PRODUCTION_READINESS_DECISION.md; Supabase advisors; Vercel `dpl_AXX3vtBWURwwEo5z2dKmaQX4C6ce` | Overall Project Owner |
+| 2026-11-16 | G26 | COMPLETE | Owner explicitly deferred Supabase upgrade during development/testing; Free-tier Auth limitation is recorded as a future production gate, not a current development blocker; no billing change made; GO for internal synthetic development/testing and NO-GO for production, external users, customer data, and writes | docs/G26_SUPABASE_PLAN_UPGRADE_AND_AUTH_ACTIVATION.md; Supabase organization `yibefgglaxtymfgywuzo` | Overall Project Owner |
+| 2026-11-16 | G27 | NEXT | Product workflow implementation on the reconciled local source: turn the approved shell and fixture-backed views into testable project, contract, diary/evidence, programme, BOQ, review, and audit workflows without requiring a paid Supabase plan or enabling writes | docs/G27_LOCAL_PRODUCT_WORKFLOW_IMPLEMENTATION.md | Overall Project Owner |
 
 ## Weekly progress review
 
@@ -517,6 +519,20 @@ At each review, record:
 - Decisions made or still awaiting approval.
 - Scope changes and deferred items.
 - Next three concrete tasks.
+
+## Current progress snapshot — 16 November 2026
+
+- Completed: G1–G26 release, frontend, synthetic boundary, authenticated UAT, source reconciliation, pilot, and readiness records.
+- Current working source: clean local branch `codex/g23-local-reconciliation`, with the authoritative runtime source deployed to the stable Vercel alias.
+- Current tests: 130 passing; no production/customer-data/write authorization.
+- Deferred: Supabase Pro upgrade and leaked-password protection; these remain a future production gate.
+- Current state: **GO for internal synthetic development/testing; NO-GO for production, external users, customer data, and writes.**
+
+Next three concrete tasks:
+
+1. Implement the first complete local project/contract workflow using deterministic fixtures and explicit state transitions.
+2. Add interaction-level tests for diary/evidence, programme/BOQ, review queue, provenance, and audit views.
+3. Prepare a local UX acceptance build and update the product decision log before any backend write work.
 - Whether any release gate changed status.
 
 ## Definition of done
