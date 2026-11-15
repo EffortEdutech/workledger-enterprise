@@ -62,8 +62,9 @@ function render() {
   root.querySelectorAll("[data-close-drawer]").forEach((button) => button.addEventListener("click", () => { const drawer=root.querySelector("#drawer"); if(drawer) drawer.hidden=true; }));
 }
 async function hydrateSupabaseReadModels() {
+  if (!state.session) { state.supabaseStatus = "signed-out · fixture fallback"; render(); return; }
   try {
-    const response = await fetch(supabaseConfig.url + "/rest/v1/wle_staging_read_model?select=record_type,source_system,source_record_id,source_revision,source_digest,payload&order=record_type", { headers: { apikey: supabaseConfig.publishableKey, Authorization: "Bearer " + supabaseConfig.publishableKey } });
+    const response = await fetch(supabaseConfig.url + "/rest/v1/wle_staging_read_model?select=record_type,source_system,source_record_id,source_revision,source_digest,payload&order=record_type", { headers: { apikey: supabaseConfig.publishableKey, Authorization: "Bearer " + (state.session.access_token || supabaseConfig.publishableKey) } });
     if (!response.ok) throw new Error("read model " + response.status);
     const rows = await response.json();
     const byType = Object.fromEntries(rows.map((row) => [row.record_type, row]));
