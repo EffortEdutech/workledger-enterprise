@@ -8,11 +8,11 @@ Decision: HOLD — preparation complete; pilot authorization pending.
 | Item | Observed value | Release implication |
 |---|---|---|
 | Working branch | `master` | Branch policy and protected remote are not yet configured |
-| Git remote | `origin` configured to EffortEdutech/workledger-enterprise | Push/protected branch policy remains pending |
+| Git remote | `origin` configured; `master` tracks `origin/master` at `1e84dabceb20217823ce85d33fc65862c0611736` | Hosted protection policy remains pending |
 | Local port family | 5100 | Use for WorkLedger Enterprise local services |
 | Test baseline | 128 passing tests | Local synthetic baseline verified |
-| Supabase | Not connected by this gate | Auth/RLS staging readback remains pending |
-| Vercel | Not connected by this gate | Deployment and environment separation remain pending |
+| Supabase | `gumlaaqfxxkdlwuusfhv` active/healthy; migration `20261114182126`; FORCE RLS read back; synthetic HOLD record `7db568ae-91ec-4218-bdd2-f92883fedd9a` | E01/E04/E06 reconciliation and actual E07 migration remain pending |
+| Vercel | `workledger-enterprise` verified under `eff-edus-projects`, linked to GitHub; zero project/hidden production env vars observed | Preview/staging environment separation and safe variables remain pending |
 | Production migration | Not executed | No customer data may be used |
 
 ## Evidence index

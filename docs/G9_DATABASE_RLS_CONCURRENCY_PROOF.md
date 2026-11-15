@@ -18,5 +18,6 @@ The synthetic actuals suite verifies cross-tenant and sibling-contract denial, r
 ## Release holds
 
 - Do not execute the candidate SQL until E01/E04/E06 physical schemas and composite indexes are reconciled.
+- The G12 Supabase preflight confirms the target project is empty; E01/E04/E06 schemas are not yet present there, so the candidate foreign keys cannot be applied safely.
 - Add reviewed RLS policies and least-privilege grants only in approved staging.
 - Execute migration/readback and rollback tests in the 5100-family local/staging workflow before any customer data.

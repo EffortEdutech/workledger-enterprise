@@ -2,15 +2,19 @@ import { fixtureContext, fixtureTasks, navItems, roles } from "./fixtures.js";
 import { readBoqProvenance, readContractChronology, readDiaryEvidence, readProgramme, readProjectContext } from "./adapters.js";
 import { authorizeRead } from "./authorization.js";
 import { auditFixtures, readAuditPackage } from "./audit.js";
+import { clearSession, readScope, readScopedRows, readSession, signIn } from "./auth.js";
 
 const initialView = window.location.hash.slice(1);
-const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "" };
+const uatExpired = new URLSearchParams(window.location.search).get("uat") === "expired";
+const initialSession = uatExpired ? { access_token: "expired.synthetic.token", user: { email: "synthetic-expired@test.workledger.local" } } : readSession();
+const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", session: initialSession, scope: null, authRows: null, authState: initialSession ? "loading" : "signed-out", authMessage: "Sign in with a synthetic staging user." };
 const root = document.querySelector("#app");
 const titleMap = Object.fromEntries(navItems.map((item) => [item.id, item.label]));
 const readModels = { context: readProjectContext(), programme: readProgramme(), boq: readBoqProvenance(), diary: readDiaryEvidence(), chronology: readContractChronology() };
 const auditPackage = readAuditPackage();
 const previewIdentityByRole = Object.fromEntries(roles.map((role) => [role.id, `user-preview-${role.id}`]));
 function can(capability) { return state.role.capabilities.includes(capability); }
+function authPanel() { if (!state.session) return '<form class="auth-panel" id="auth-form"><input name="email" type="email" required placeholder="Synthetic user email" aria-label="Synthetic user email"><input name="password" type="password" required placeholder="Synthetic user password"><button class="btn primary" type="submit">Sign in</button><span class="muted">'+state.authMessage+'</span></form>'; const appointment = state.scope?.[0]; const label = state.authState === "loading" ? "Scope loading" : state.authState === "revoked" ? "Appointment revoked" : state.authState === "denied" ? "Scope denied · no rows available" : "Scoped read verified"; const kind = state.authState === "allowed" ? "good" : "warn"; return '<div class="auth-panel"><span>Authenticated: '+(state.session.user?.email || "synthetic user")+' · '+(appointment?.appointment_scope || "scope loading")+' '+pill(label,kind)+'</span><button class="btn" data-signout>Sign out</button></div>'; }
 function pill(label, kind = "") { return '<span class="pill '+kind+'">'+label+"</span>"; }
 function metric(label, value, note) { return '<div class="card metric"><small>'+label+"</small><strong>"+value+"</strong><span>"+note+"</span></div>"; }
 function table(headers, rows) { return '<div class="table-wrap"><table><thead><tr>'+headers.map((h) => "<th>"+h+"</th>").join("")+"</tr></thead><tbody>"+rows.join("")+"</tbody></table></div>"; }
@@ -44,11 +48,32 @@ function render() {
   const routeDenied = !visible.some((item) => item.id === state.view);
   const view = routeDenied ? heading("Access restricted", "The current appointment cannot access this route.")+statePanel("denied") : (state.view === "home" ? home() : genericView());
   root.innerHTML = '<div class="app"><aside class="sidebar"><div class="brand"><small>WORKLEDGER</small><b>Enterprise</b></div><div class="context"><small>Current context</small><strong>'+fixtureContext.project.name+'</strong><span>Contract '+fixtureContext.contract.number+" · "+fixtureContext.contract.status+'</span></div><nav class="nav" aria-label="Primary navigation">'+visible.map((item) => '<button class="'+(item.id === state.view ? "active" : "")+'" data-view="'+item.id+'">'+item.icon+" &nbsp; "+item.label+"</button>").join("")+'</nav><div class="side-foot">LOCAL FIXTURE MODE<br>Frontend foundation · no network calls</div></aside><main><header class="topbar"><div class="crumb"><strong>'+titleMap[state.view]+'</strong><span>'+fixtureContext.project.name+" / "+fixtureContext.contract.number+'</span></div><div class="top-actions"><input class="search" aria-label="Search current view" placeholder="Search this workspace…" value="'+state.query+'"><select class="role" aria-label="Preview role">'+roles.map((role) => '<option value="'+role.id+'" '+(role.id === state.role.id ? "selected" : "")+">"+role.label+"</option>").join("")+'</select><div class="avatar">AK</div></div></header><div class="banner"><strong>Local fixture mode.</strong> Synthetic data only. Backend integration is intentionally disabled.</div><section class="content">'+view+'<p class="footer-note">WorkLedger Enterprise frontend foundation · G4 · local-only prototype</p></section></main></div>';
+  const authMount = root.querySelector(".content");
+  if (authMount && !authMount.querySelector("#auth-form") && !authMount.querySelector("[data-signout]")) authMount.insertAdjacentHTML("afterbegin", authPanel());
+  const form = root.querySelector("#auth-form");
+  if (form) form.addEventListener("submit", async (event) => { event.preventDefault(); const data = new FormData(form); state.authMessage = "Signing in…"; render(); try { state.session = await signIn(data.get("email"), data.get("password")); state.scope = await readScope(state.session); state.authRows = await readScopedRows(state.session); const appointment = state.scope?.[0]; state.authState = appointment?.appointment_status === "revoked" ? "revoked" : appointment && state.authRows.length ? "allowed" : "denied"; state.authMessage = state.authState === "allowed" ? "Scoped read verified." : state.authState === "revoked" ? "Appointment revoked." : "Scope denied; no target rows available."; } catch (error) { console.error("WorkLedger staging auth/read failed", { code: error?.message || "unknown" }); clearSession(); state.session = null; state.scope = null; state.authRows = null; state.authState = "signed-out"; const code = error?.message || "unknown"; state.authMessage = code === "read-401" ? "Session denied by scope policy (read-401)." : code.startsWith("scope-") ? `Scope read failed (${code}).` : code.startsWith("read-") ? `Scoped read failed (${code}).` : `Sign-in failed (${code}).`; } render(); });
+  const signout = root.querySelector("[data-signout]");
+  if (signout) signout.addEventListener("click", () => { clearSession(); state.session = null; state.scope = null; state.authRows = null; state.authState = "signed-out"; state.authMessage = "Signed out; fixture fallback only."; render(); });
   root.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => { state.view = button.dataset.view; render(); }));
   root.querySelector(".role").addEventListener("change", (event) => { state.role = roles.find((role) => role.id === event.target.value); render(); });
   root.querySelector(".search").addEventListener("input", (event) => { state.query = event.target.value; });
   root.querySelectorAll("[data-action]").forEach((button) => button.addEventListener("click", () => window.alert("Prototype action only. No backend call occurs.")));
+  root.querySelectorAll("[data-state]").forEach((button) => button.addEventListener("click", () => { const panel = button.closest(".card"); if (panel) panel.insertAdjacentHTML("beforeend", statePanel(button.dataset.state)); }));
   root.querySelectorAll("[data-drawer]").forEach((button) => button.addEventListener("click", () => { let drawer=root.querySelector("#drawer"); if(!drawer){ root.insertAdjacentHTML("beforeend", provenanceDrawer()); drawer=root.querySelector("#drawer"); root.querySelectorAll("[data-close-drawer]").forEach((close) => close.addEventListener("click", () => { drawer.hidden=true; })); } drawer.hidden=false; }));
   root.querySelectorAll("[data-close-drawer]").forEach((button) => button.addEventListener("click", () => { const drawer=root.querySelector("#drawer"); if(drawer) drawer.hidden=true; }));
 }
+async function rehydrateAuthSession() {
+  if (!state.session) return;
+  try {
+    state.scope = await readScope(state.session);
+    state.authRows = await readScopedRows(state.session);
+    const appointment = state.scope?.[0];
+    state.authState = appointment?.appointment_status === "revoked" ? "revoked" : appointment && state.authRows.length ? "allowed" : "denied";
+  } catch (error) {
+    console.error("WorkLedger session rehydration failed", { code: error?.message || "unknown" });
+    clearSession(); state.session = null; state.scope = null; state.authRows = null; state.authState = "signed-out"; state.authMessage = "Session expired or scope denied.";
+  }
+  render();
+}
 render();
+rehydrateAuthSession();
