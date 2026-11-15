@@ -2,9 +2,10 @@ import { fixtureContext, fixtureTasks, navItems, roles } from "./fixtures.js";
 import { readBoqProvenance, readContractChronology, readDiaryEvidence, readProgramme, readProjectContext } from "./adapters.js";
 import { authorizeRead } from "./authorization.js";
 import { auditFixtures, readAuditPackage } from "./audit.js";
+import { supabaseConfig } from "./supabase-config.js";
 
 const initialView = window.location.hash.slice(1);
-const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "" };
+const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending" };
 const root = document.querySelector("#app");
 const titleMap = Object.fromEntries(navItems.map((item) => [item.id, item.label]));
 const readModels = { context: readProjectContext(), programme: readProgramme(), boq: readBoqProvenance(), diary: readDiaryEvidence(), chronology: readContractChronology() };
@@ -43,7 +44,7 @@ function render() {
   const visible = navItems.filter((item) => { try { authorizeRead(identityId, item.id, { organisationId: fixtureContext.organisation.id, projectId: fixtureContext.project.id, contractId: fixtureContext.contract.id }); return true; } catch { return false; } });
   const routeDenied = !visible.some((item) => item.id === state.view);
   const view = routeDenied ? heading("Access restricted", "The current appointment cannot access this route.")+statePanel("denied") : (state.view === "home" ? home() : genericView());
-  root.innerHTML = '<div class="app"><aside class="sidebar"><div class="brand"><small>WORKLEDGER</small><b>Enterprise</b></div><div class="context"><small>Current context</small><strong>'+fixtureContext.project.name+'</strong><span>Contract '+fixtureContext.contract.number+" · "+fixtureContext.contract.status+'</span></div><nav class="nav" aria-label="Primary navigation">'+visible.map((item) => '<button class="'+(item.id === state.view ? "active" : "")+'" data-view="'+item.id+'">'+item.icon+" &nbsp; "+item.label+"</button>").join("")+'</nav><div class="side-foot">LOCAL FIXTURE MODE<br>Frontend foundation · no network calls</div></aside><main><header class="topbar"><div class="crumb"><strong>'+titleMap[state.view]+'</strong><span>'+fixtureContext.project.name+" / "+fixtureContext.contract.number+'</span></div><div class="top-actions"><input class="search" aria-label="Search current view" placeholder="Search this workspace…" value="'+state.query+'"><select class="role" aria-label="Preview role">'+roles.map((role) => '<option value="'+role.id+'" '+(role.id === state.role.id ? "selected" : "")+">"+role.label+"</option>").join("")+'</select><div class="avatar">AK</div></div></header><div class="banner"><strong>Local fixture mode.</strong> Synthetic data only. Backend integration is intentionally disabled.</div><section class="content">'+view+'<p class="footer-note">WorkLedger Enterprise frontend foundation · G4 · local-only prototype</p></section></main></div>';
+  root.innerHTML = '<div class="app"><aside class="sidebar"><div class="brand"><small>WORKLEDGER</small><b>Enterprise</b></div><div class="context"><small>Current context</small><strong>'+fixtureContext.project.name+'</strong><span>Contract '+fixtureContext.contract.number+" · "+fixtureContext.contract.status+'</span></div><nav class="nav" aria-label="Primary navigation">'+visible.map((item) => '<button class="'+(item.id === state.view ? "active" : "")+'" data-view="'+item.id+'">'+item.icon+" &nbsp; "+item.label+"</button>").join("")+'</nav><div class="side-foot">LOCAL FIXTURE MODE<br>Frontend foundation · no network calls</div></aside><main><header class="topbar"><div class="crumb"><strong>'+titleMap[state.view]+'</strong><span>'+fixtureContext.project.name+" / "+fixtureContext.contract.number+'</span></div><div class="top-actions"><input class="search" aria-label="Search current view" placeholder="Search this workspace…" value="'+state.query+'"><select class="role" aria-label="Preview role">'+roles.map((role) => '<option value="'+role.id+'" '+(role.id === state.role.id ? "selected" : "")+">"+role.label+"</option>").join("")+'</select><div class="avatar">AK</div></div></header><div class="banner"><strong>Local fixture mode.</strong> Synthetic data only. Supabase read-only status: '+state.supabaseStatus+'. Writes are disabled.</div><section class="content">'+view+'<p class="footer-note">WorkLedger Enterprise frontend foundation · G4 · local-only prototype</p></section></main></div>';
   root.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => { state.view = button.dataset.view; render(); }));
   root.querySelector(".role").addEventListener("change", (event) => { state.role = roles.find((role) => role.id === event.target.value); render(); });
   root.querySelector(".search").addEventListener("input", (event) => { state.query = event.target.value; });
@@ -52,4 +53,16 @@ function render() {
   root.querySelectorAll("[data-drawer]").forEach((button) => button.addEventListener("click", () => { let drawer=root.querySelector("#drawer"); if(!drawer){ root.insertAdjacentHTML("beforeend", provenanceDrawer()); drawer=root.querySelector("#drawer"); root.querySelectorAll("[data-close-drawer]").forEach((close) => close.addEventListener("click", () => { drawer.hidden=true; })); } drawer.hidden=false; }));
   root.querySelectorAll("[data-close-drawer]").forEach((button) => button.addEventListener("click", () => { const drawer=root.querySelector("#drawer"); if(drawer) drawer.hidden=true; }));
 }
+async function hydrateSupabaseReadStatus() {
+  try {
+    const response = await fetch(supabaseConfig.url + "/rest/v1/wle_staging_read_model?select=record_type,source_system,source_record_id&limit=1", { headers: { apikey: supabaseConfig.publishableKey, Authorization: "Bearer " + supabaseConfig.publishableKey } });
+    if (!response.ok) throw new Error("read status " + response.status);
+    const rows = await response.json();
+    state.supabaseStatus = rows.length ? "connected · synthetic read" : "connected · empty";
+  } catch {
+    state.supabaseStatus = "fixture fallback";
+  }
+  render();
+}
 render();
+hydrateSupabaseReadStatus();
