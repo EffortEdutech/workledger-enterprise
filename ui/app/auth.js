@@ -12,3 +12,8 @@ export async function readScope(session) {
   const response = await fetch(`${supabaseConfig.url}/rest/v1/wle_staging_appointments?select=organization_id,project_id,contract_id,appointment_scope,appointment_status`, { headers: { apikey: supabaseConfig.publishableKey, Authorization: `Bearer ${session.access_token}` } });
   if (!response.ok) throw new Error(`scope-${response.status}`); return response.json();
 }
+export async function readScopedRows(session) {
+  if (!session?.access_token) throw new Error("signed-out");
+  const response = await fetch(`${supabaseConfig.url}/rest/v1/wle_staging_read_model?select=record_type,source_system,source_record_id,source_revision,source_digest,payload&order=record_type`, { headers: { apikey: supabaseConfig.publishableKey, Authorization: `Bearer ${session.access_token}` } });
+  if (!response.ok) throw new Error(`read-${response.status}`); return response.json();
+}
