@@ -4,6 +4,8 @@ Status: **IN PROGRESS**
 Release class: zero-budget functional demo  
 Data mode: synthetic/local-only
 
+Deployment readback (2026-11-17): Vercel deployment `dpl_AdwZ1LRP5LuL2stnPd8Q4jXjEksh` is READY from commit `f1f52178b459ee50779b5995144376e341304293`. Stable project domain remains `workledger-enterprise.vercel.app`; mobile install and offline acceptance are still pending.
+
 ## Delivered foundation
 
 - Install metadata in `ui/app/manifest.webmanifest`.
