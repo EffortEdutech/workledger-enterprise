@@ -31,3 +31,4 @@ Deployment readback (2026-11-17): latest Vercel deployment `dpl_EjMfx3Xs53KKzUXt
 - Save action produced `Draft stored on this device`.
 - Submit action produced `Diary queued locally · awaiting controlled sync`.
 - No credentials, customer data, file upload, or backend write was used.
+- Automated PWA asset and field-contract checks pass; current regression suite: 179 tests.
