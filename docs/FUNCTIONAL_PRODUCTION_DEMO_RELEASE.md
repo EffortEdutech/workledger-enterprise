@@ -45,3 +45,12 @@ QS capability acceptance (2026-11-17): Programme displayed the accepted `Program
 ## Deferred security release
 
 Production Auth hardening, real customer identities, real Contract Diary/QS endpoints, customer data, production writes, monitoring, and external customer use remain outside this release. They require a separate secure client-production milestone.
+
+## Project-owner acceptance
+
+Decision: **PENDING**  
+Accepted scope: functional synthetic/demo presentation only  
+Secure client production authorization: **NOT GRANTED**  
+Owner: Overall Project Owner  
+Date: —  
+Notes: —
