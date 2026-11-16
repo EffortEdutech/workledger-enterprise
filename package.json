@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "fixture": "node scripts/build_synthetic_fixture.mjs"
+    "fixture": "node scripts/build_synthetic_fixture.mjs",
+    "release:audit": "node scripts/release_audit.mjs"
   }
 }
