@@ -4,7 +4,7 @@ Status: **IN PROGRESS**
 Release class: zero-budget functional demo  
 Data mode: synthetic/local-only
 
-Deployment readback (2026-11-17): Vercel deployment `dpl_AdwZ1LRP5LuL2stnPd8Q4jXjEksh` is READY from commit `f1f52178b459ee50779b5995144376e341304293`. Stable project domain remains `workledger-enterprise.vercel.app`; mobile install and offline acceptance are still pending.
+Deployment readback (2026-11-17): corrected Vercel deployment `dpl_DPfTKZhecoYZJf5zCMgzgRNkZESn` is READY from commit `02ff60b69f0f7dbad9938e21a46d6225d1132da1`. Stable project domain remains `workledger-enterprise.vercel.app`.
 
 ## Delivered foundation
 
@@ -23,3 +23,11 @@ Deployment readback (2026-11-17): Vercel deployment `dpl_AdwZ1LRP5LuL2stnPd8Q4jX
 3. Verify photo selection count is retained locally without uploading files.
 4. Add controlled synthetic sync adapter only after the local capture flow is accepted.
 5. Add field-role screenshots and update the release checklist.
+
+## Live acceptance evidence
+
+- Site Supervisor role exposed the Site Diary route on the READY deployment.
+- Weather, manpower, activities, and issues/observations were entered successfully.
+- Save action produced `Draft stored on this device`.
+- Submit action produced `Diary queued locally · awaiting controlled sync`.
+- No credentials, customer data, file upload, or backend write was used.
