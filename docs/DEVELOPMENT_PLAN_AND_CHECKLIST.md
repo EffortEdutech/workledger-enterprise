@@ -522,18 +522,18 @@ At each review, record:
 
 ## Current progress snapshot — 16 November 2026
 
-- Completed: G1–G26 release, frontend, synthetic boundary, authenticated UAT, source reconciliation, pilot, and readiness records.
-- Current working source: clean local branch `codex/g23-local-reconciliation`, with the authoritative runtime source deployed to the stable Vercel alias.
-- Current tests: 130 passing; no production/customer-data/write authorization.
-- Deferred: Supabase Pro upgrade and leaked-password protection; these remain a future production gate.
+- Completed: G1–G40, including frontend foundation, synthetic authenticated UAT, source reconciliation, integration harness, and controlled readiness records.
+- In progress/HOLD: G41–G46 production closure. Local gate contracts, candidate schema, bounded-write controls, operations gate, external-UAT gate, and final GO evaluator are implemented.
+- Current working source: clean local branch `codex/g23-local-reconciliation`; latest release-control commit `064dbab`.
+- Current tests: **173 passing**; no production/customer-data/write authorization.
+- Current external evidence: Supabase remains Free tier with leaked-password protection unavailable/disabled; real Contract Diary and QS endpoints, production credentials, production migrations, operations evidence, external UAT, and owner acceptance are not yet supplied or verified.
 - Current state: **GO for internal synthetic development/testing; NO-GO for production, external users, customer data, and writes.**
 
-Next three concrete tasks:
+Next three concrete closure tasks:
 
-1. Implement the first complete local project/contract workflow using deterministic fixtures and explicit state transitions.
-2. Add interaction-level tests for diary/evidence, programme/BOQ, review queue, provenance, and audit views.
-3. Prepare a local UX acceptance build and update the product decision log before any backend write work.
-- Whether any release gate changed status.
+1. Configure and verify production identity/Auth hardening and approved real Contract Diary/QS read connectivity.
+2. Apply the reviewed production schema/RLS migration in a controlled environment, then prove bounded audited writes and rollback.
+3. Execute authorized external UAT, collect monitoring/rollback evidence, obtain explicit owner acceptance, and run the final 11-gate GO evaluator.
 
 ## Definition of done
 
