@@ -529,6 +529,7 @@ At each review, record:
 - Current working source: clean local branch `codex/g23-local-reconciliation`; latest release-control commit `064dbab`.
 - Current tests: **173 passing**; no production/customer-data/write authorization.
 - Current external evidence: Supabase remains Free tier with leaked-password protection unavailable/disabled; real Contract Diary and QS endpoints, production credentials, production migrations, operations evidence, external UAT, and owner acceptance are not yet supplied or verified.
+- Latest Supabase readback (2026-11-16): project `gumlaaqfxxkdlwuusfhv` is `ACTIVE_HEALTHY`, but migration history contains only `g12_staging_readiness_boundary`, `g16_scope_boundary_proof`, and `g17_authenticated_scope_boundary`; security advisors still report the intentional `wle_staging.release_readiness` no-policy INFO and `auth_leaked_password_protection` WARN. No production candidate migration was applied.
 - Current state: **GO for internal synthetic development/testing; NO-GO for production, external users, customer data, and writes.**
 
 Next three concrete closure tasks:
