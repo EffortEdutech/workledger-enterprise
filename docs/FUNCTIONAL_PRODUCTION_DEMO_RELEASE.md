@@ -23,6 +23,8 @@ This release is intended for presentation, workflow demonstration, and controlle
 | State handling | Loading, empty, denied, revoked, stale, error, and pending states | READY FOR ACCEPTANCE |
 | Controlled deployment | Stable Vercel presentation deployment, synthetic/read-only banner, no customer-data claim | PENDING LIVE ACCEPTANCE |
 
+Latest Vercel readback (2026-11-17): project `workledger-enterprise` has a READY Git deployment at `workledger-enterprise-fcoh00e98-eff-edus-projects.vercel.app`, built from commit `2b7af2629a007138537abfa4063caba7fd57652e` on `codex/g23-local-reconciliation`. The project domain `workledger-enterprise.vercel.app` is configured, but the project is not marked live and SSO protection applies to non-custom domains. Live presentation acceptance therefore remains pending.
+
 ## Release acceptance conditions
 
 1. Every row above is demonstrated from the stable presentation URL or local app.
