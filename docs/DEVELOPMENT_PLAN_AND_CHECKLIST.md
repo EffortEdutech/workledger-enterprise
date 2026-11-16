@@ -558,3 +558,4 @@ A goal is complete only when:
 2026-11-16 | G37 | COMPLETE | Reconciliation UX exposed in Audit & Evidence; stable browser check passed for reconciled/read-only/synthetic states; drift outcomes covered; screenshot captured; 153 tests pass.
 2026-11-16 | G38 | COMPLETE | Synthetic read-only connectivity connector validated approved sources, synthetic auth/scope, sibling denial, timeout, unavailable, and invalid-resource outcomes; 156 tests pass; real endpoints and writes remain disabled.
 2026-11-16 | G39 | COMPLETE | End-to-end synthetic connector→reconciliation flow validated for success, source denial, revision drift, and stable reconciliation UX; 159 tests pass; real endpoints and writes remain disabled.
+2026-11-16 | G40 | COMPLETE | Controlled integration readiness gate recorded: required real endpoint/credential/scope/rollback/audit inputs defined, unsafe configuration denied, no network or customer-data access performed; non-synthetic pilot remains HOLD.
