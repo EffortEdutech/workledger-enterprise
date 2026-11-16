@@ -547,3 +547,4 @@ A goal is complete only when:
 6. Any remaining risk is recorded with an owner and disposition.
 
 2026-11-16 | G28 | COMPLETE | Workflow coverage and UX acceptance delivered: programme/BOQ/audit transitions, provenance/review/evidence states, seven role journeys, 137 passing tests, stable staging deployment, and acceptance screenshots.
+2026-11-16 | G29 | COMPLETE | Controlled UX refinement and release candidate verified: live workflow confirmations, provenance rerender fix, 4/4 browser acceptance checks, four screenshots, and 140 passing tests; GO for internal synthetic read-only UAT only.
