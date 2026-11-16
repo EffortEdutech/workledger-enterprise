@@ -4,6 +4,10 @@ const initialWorkflow = Object.freeze({
   diaryState: "acknowledged",
   evidenceState: "verified",
   reviewState: "pending",
+  programmeState: "accepted",
+  boqState: "locked",
+  provenanceState: "closed",
+  auditFilter: "all",
   lastAction: "Loaded synthetic project scope",
 });
 
@@ -18,6 +22,10 @@ export function applyWorkflowAction(state, action) {
   else if (action === "verify-evidence") { next.evidenceState = "verified"; next.lastAction = "Evidence EVD-8801 verified"; }
   else if (action === "open-review") { next.reviewState = "in_review"; next.lastAction = "Observation QS-1071 opened for review"; }
   else if (action === "complete-review") { next.reviewState = "verified"; next.lastAction = "Observation QS-1071 independently verified"; }
+  else if (action === "accept-baseline") { next.programmeState = "accepted"; next.lastAction = "Programme baseline v3 accepted"; }
+  else if (action === "lock-boq") { next.boqState = "locked"; next.lastAction = "BOQ-REV-02 locked for review"; }
+  else if (action === "open-provenance") { next.provenanceState = "open"; next.lastAction = "Provenance lineage opened"; }
+  else if (action === "filter-audit") { next.auditFilter = "verified"; next.lastAction = "Audit view filtered to verified records"; }
   else throw new Error(`unknown-workflow-action:${action}`);
   return next;
 }
@@ -29,6 +37,10 @@ export function workflowSummary(state) {
     diary: state.diaryState,
     evidence: state.evidenceState,
     review: state.reviewState,
+    programme: state.programmeState,
+    boq: state.boqState,
+    provenance: state.provenanceState,
+    auditFilter: state.auditFilter,
     writesEnabled: false,
     lastAction: state.lastAction,
   };
