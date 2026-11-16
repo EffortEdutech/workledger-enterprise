@@ -29,6 +29,8 @@ Live browser acceptance (2026-11-17): the stable domain rendered the WorkLedger 
 
 End-to-end role-preview acceptance (2026-11-17): Site Supervisor preview exposed Site Diary and Progress; diary acknowledgement transitioned successfully; review queue transitioned `Pending review → In review → Verified`; and the provenance drawer displayed diary version, facts digest, evidence ID, programme manifest, QS task, and independent-review event. No credentials, customer data, or backend writes were used.
 
+Role-route acceptance (2026-11-17): Quantity Surveyor exposed Programme, BOQ & QS, Progress, and Reports; Independent Reviewer exposed Progress and Audit & Evidence; Auditor/Legal Reviewer exposed Contract Control, Audit & Evidence, and Reports. An unauthorized Progress route for Auditor/Legal Reviewer displayed the expected Access restricted state.
+
 ## Release acceptance conditions
 
 1. Every row above is demonstrated from the stable presentation URL or local app.
