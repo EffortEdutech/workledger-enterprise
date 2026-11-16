@@ -4,7 +4,7 @@ Status: **IN PROGRESS**
 Release class: zero-budget functional demo  
 Data mode: synthetic/local-only
 
-Deployment readback (2026-11-17): latest Vercel deployment `dpl_EjMfx3Xs53KKzUXtvPgZGGB5C7bT` is READY from commit `d13b9ef2d4d2f712350cb50708040f2f213632de`. Stable project domain remains `workledger-enterprise.vercel.app`.
+Deployment readback (2026-11-17): latest Vercel deployment `dpl_FjvufkQxYVRizuhtUEQok68mKacT` is READY from commit `8bdd9107e7c1bebfd0d9f6ab441b762b06b6c0bd`. The deployed manifest and `icon.svg` both resolve successfully; stable project domain remains `workledger-enterprise.vercel.app`.
 
 ## Delivered foundation
 
