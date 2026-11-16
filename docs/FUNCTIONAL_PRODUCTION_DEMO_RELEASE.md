@@ -48,7 +48,7 @@ Production Auth hardening, real customer identities, real Contract Diary/QS endp
 
 ## Project-owner acceptance
 
-Decision: **PENDING**
+Decision: **ACCEPTED**
 
 Accepted scope: functional synthetic/demo presentation only
 
@@ -56,6 +56,6 @@ Secure client production authorization: **NOT GRANTED**
 
 Owner: Overall Project Owner
 
-Date: —
+Date: 2026-11-17
 
-Notes: —
+Notes: Accepted for synthetic/demo presentation and controlled evaluation. The owner understands this is not secure client production and does not authorize real customer data or external users.
