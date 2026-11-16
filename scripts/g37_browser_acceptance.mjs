@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+await page.goto('https://workledger-enterprise.vercel.app/ui/app/index.html#audit', { waitUntil: 'domcontentloaded', timeout: 15000 });
+await page.waitForTimeout(500);
+await page.locator('select.role').selectOption('contract-admin');
+await page.waitForTimeout(300);
+const text = await page.locator('body').innerText();
+const result = { stable: page.url().startsWith('https://workledger-enterprise.vercel.app/'), reconciled: text.includes('Cross-system reconciliation') && text.includes('Reconciled'), readOnly: text.includes('Writes are disabled'), synthetic: text.includes('Synthetic data only') };
+await page.screenshot({ path: 'evidence/g37-reconciliation-ux.png', fullPage: true });
+console.log(JSON.stringify(result, null, 2));
+if (Object.values(result).some((value) => !value)) process.exitCode = 1;
+await browser.close();

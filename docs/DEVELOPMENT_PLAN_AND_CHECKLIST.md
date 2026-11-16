@@ -555,3 +555,4 @@ A goal is complete only when:
 2026-11-16 | G34 | COMPLETE | Versioned `wle-read-v1` source adapter contract implemented with scope/provenance/freshness/verification fields, native-ID preservation, incomplete-link denial, and 145 passing tests; source-data import and writes remain disabled.
 2026-11-16 | G35 | COMPLETE | Contract Diary and QS source-shaped synthetic fixtures certified; shared scope/native links/digests reconciled; mismatch, stale, missing, wrong-digest, duplicate, and sibling-scope denials tested; 148 tests pass.
 2026-11-16 | G36 | COMPLETE | Synthetic cross-system reconciliation harness produces a scoped WorkLedger read model and reports revision/digest/scope/source-state drift; 151 tests pass; real source import and writes remain disabled.
+2026-11-16 | G37 | COMPLETE | Reconciliation UX exposed in Audit & Evidence; stable browser check passed for reconciled/read-only/synthetic states; drift outcomes covered; screenshot captured; 153 tests pass.
