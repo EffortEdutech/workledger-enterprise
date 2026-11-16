@@ -31,6 +31,8 @@ End-to-end role-preview acceptance (2026-11-17): Site Supervisor preview exposed
 
 Role-route acceptance (2026-11-17): Quantity Surveyor exposed Programme, BOQ & QS, Progress, and Reports; Independent Reviewer exposed Progress and Audit & Evidence; Auditor/Legal Reviewer exposed Contract Control, Audit & Evidence, and Reports. An unauthorized Progress route for Auditor/Legal Reviewer displayed the expected Access restricted state.
 
+QS capability acceptance (2026-11-17): Programme displayed the accepted `Programme v3` baseline, task lineage, planned dates, progress, and chronology. BOQ & QS displayed locked `BOQ-REV-02`, quantity `240.0000 m³`, QS task link `QS-1071`, and the expected stale-source refresh state.
+
 ## Release acceptance conditions
 
 1. Every row above is demonstrated from the stable presentation URL or local app.
