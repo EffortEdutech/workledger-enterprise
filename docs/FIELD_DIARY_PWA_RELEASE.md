@@ -33,3 +33,7 @@ Deployment readback (2026-11-17): latest Vercel deployment `dpl_FjvufkQxYVRizuht
 - Submit action produced `Diary queued locally · awaiting controlled sync`.
 - No credentials, customer data, file upload, or backend write was used.
 - Automated PWA asset and field-contract checks pass; current regression suite: 179 tests.
+
+## Manual install/offline acceptance
+
+Owner-provided result (2026-11-17): **GREEN** for PWA installation from the browser, offline reload, and confirmation that the diary shell and saved draft remained available. Acceptance URL: `https://workledger-enterprise-git-codex-g23-lo-2f83f4-eff-edus-projects.vercel.app/ui/app/index.html`.
