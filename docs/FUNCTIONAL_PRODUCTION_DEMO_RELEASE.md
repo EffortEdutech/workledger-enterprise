@@ -21,11 +21,13 @@ This release is intended for presentation, workflow demonstration, and controlle
 | Audit and CIPAA traceability | Chronology, audit package, evidence custody, actor and source references | READY FOR ACCEPTANCE |
 | Role journeys | Project Director, Contract Administrator, Site Manager, Site Supervisor, QS, Independent Reviewer, Auditor/Legal Reviewer | READY FOR ACCEPTANCE |
 | State handling | Loading, empty, denied, revoked, stale, error, and pending states | READY FOR ACCEPTANCE |
-| Controlled deployment | Stable Vercel presentation deployment, synthetic/read-only banner, no customer-data claim | PENDING LIVE ACCEPTANCE |
+| Controlled deployment | Stable Vercel presentation deployment, synthetic/read-only banner, no customer-data claim | ACCEPTED FOR CONTROLLED DEMO |
 
 Latest Vercel readback (2026-11-17): project `workledger-enterprise` has a READY Git deployment at `workledger-enterprise-fcoh00e98-eff-edus-projects.vercel.app`, built from commit `2b7af2629a007138537abfa4063caba7fd57652e` on `codex/g23-local-reconciliation`. The project domain `workledger-enterprise.vercel.app` is configured, but the project is not marked live and SSO protection applies to non-custom domains.
 
 Live browser acceptance (2026-11-17): the stable domain rendered the WorkLedger shell with Northbank project context, programme-at-a-glance metrics, trust-boundary messaging, synthetic-data banner, and writes-disabled notice. The unauthenticated demo view exposes the public presentation shell; authenticated role journeys remain available through the synthetic staging accounts when required.
+
+End-to-end role-preview acceptance (2026-11-17): Site Supervisor preview exposed Site Diary and Progress; diary acknowledgement transitioned successfully; review queue transitioned `Pending review → In review → Verified`; and the provenance drawer displayed diary version, facts digest, evidence ID, programme manifest, QS task, and independent-review event. No credentials, customer data, or backend writes were used.
 
 ## Release acceptance conditions
 
