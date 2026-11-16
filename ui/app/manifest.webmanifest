@@ -6,5 +6,7 @@
   "background_color": "#f4f7f8",
   "theme_color": "#12384c",
   "description": "Synthetic WorkLedger site diary capture demo",
-  "icons": []
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
 }
