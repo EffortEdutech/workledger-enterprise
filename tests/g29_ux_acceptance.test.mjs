@@ -11,3 +11,7 @@ test("G29 role and authentication controls retain accessible labels", () => {
   assert.match(app, /aria-label=\"Preview role\"/);
   assert.match(app, /aria-label=\"Synthetic user email\"/);
 });
+test("G29 provenance action opens the drawer after workflow rerender", () => {
+  assert.match(app, /action === \"open-provenance\"/);
+  assert.match(app, /drawer\.hidden = false/);
+});
