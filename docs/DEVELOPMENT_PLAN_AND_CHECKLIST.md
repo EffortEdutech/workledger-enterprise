@@ -532,6 +532,7 @@ At each review, record:
 - Latest Supabase readback (2026-11-16): project `gumlaaqfxxkdlwuusfhv` is `ACTIVE_HEALTHY`, but migration history contains only `g12_staging_readiness_boundary`, `g16_scope_boundary_proof`, and `g17_authenticated_scope_boundary`; security advisors still report the intentional `wle_staging.release_readiness` no-policy INFO and `auth_leaked_password_protection` WARN. No production candidate migration was applied.
 - Latest read-only schema inventory: only synthetic staging objects are present for WorkLedger (`wle_staging.release_readiness`, `public.wle_staging_read_model`, `public.wle_staging_appointments`); staging constraints retain `writes_enabled = false`, `synthetic-only`, and `read_only = true`. This confirms the production candidate remains unapplied.
 - Current state: **GO for internal synthetic development/testing; NO-GO for production, external users, customer data, and writes.**
+- Functional demo milestone: `docs/FUNCTIONAL_PRODUCTION_DEMO_RELEASE.md` defines the acceptance matrix for the presentation-ready zero-budget release.
 
 Next three concrete closure tasks:
 
