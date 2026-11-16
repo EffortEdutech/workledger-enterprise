@@ -9,6 +9,7 @@ Deployment readback (2026-11-17): latest Vercel deployment `dpl_EjMfx3Xs53KKzUXt
 ## Delivered foundation
 
 - Install metadata in `ui/app/manifest.webmanifest`.
+- Local WorkLedger icon asset included for installability and offline shell caching.
 - Offline shell caching in `ui/app/sw.js`.
 - Mobile-responsive diary capture form on the Site Diary route.
 - Fields for date, weather, manpower, activities, issues/observations, and photo selection.
