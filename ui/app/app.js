@@ -43,7 +43,8 @@ function viewBody() {
   if (state.view === "admin") return '<div class="layout"><section class="card"><h2>Current appointment</h2><dl class="kv"><dt>Role</dt><dd>'+state.role.label+'</dd><dt>Scope</dt><dd>Northbank / NB-042</dd><dt>Capabilities</dt><dd>'+state.role.capabilities.join(", ")+'</dd></dl></section><section class="card"><h2>Integration status</h2>'+statePanel("error")+'</section></div>';
   return '<div class="layout"><section class="card"><h2>Recent chronology</h2>'+timeline()+'</section>'+reviewQueue()+'</div>';
 }
-function genericView() { return heading(titleMap[state.view], "Frontend foundation view using deterministic local fixtures.")+viewBody(); }
+function workflowNotice() { return state.workflowMessage ? '<div class="notice workflow-notice" role="status" aria-live="polite">'+state.workflowMessage+'</div>' : ''; }
+function genericView() { return heading(titleMap[state.view], "Frontend foundation view using deterministic local fixtures.")+workflowNotice()+viewBody(); }
 function render() {
   const identityId = previewIdentityByRole[state.role.id] || "user-project-director";
   const visible = navItems.filter((item) => { try { authorizeRead(identityId, item.id, { organisationId: fixtureContext.organisation.id, projectId: fixtureContext.project.id, contractId: fixtureContext.contract.id }); return true; } catch { return false; } });
