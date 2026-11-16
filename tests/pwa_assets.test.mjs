@@ -14,6 +14,7 @@ test('field diary PWA assets declare an installable offline shell', async () => 
 
 test('field diary capture exposes required fields and demo-only boundaries', async () => {
   const app = await readFile(new URL('../ui/app/app.js', import.meta.url), 'utf8');
+  const styles = await readFile(new URL('../ui/app/styles.css', import.meta.url), 'utf8');
   assert.match(app, /name="weather"/);
   assert.match(app, /name="manpower"/);
   assert.match(app, /name="activities"/);
@@ -21,4 +22,7 @@ test('field diary capture exposes required fields and demo-only boundaries', asy
   assert.match(app, /accept="image\/\*"/);
   assert.match(app, /controlled adapter is enabled/);
   assert.match(app, /synthetic only/);
+  assert.match(styles, /@media\(max-width:720px\)/);
+  assert.match(styles, /@media\(max-width:440px\)/);
+  assert.match(styles, /field-diary-form/);
 });
