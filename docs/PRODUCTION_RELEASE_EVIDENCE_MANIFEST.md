@@ -26,6 +26,7 @@ This manifest is the handoff checklist for G41–G46. A gate may be marked `PASS
 - Synthetic evidence cannot satisfy a production gate unless the gate explicitly says synthetic.
 - A missing, stale, contradictory, or unreviewed artifact is `HOLD`, not `PASS`.
 - The final GO decision must be produced by `src/integration/finalGoLiveGate.mjs` and reviewed against this manifest.
+- Local completeness is machine-checked by `src/integration/evidenceManifest.mjs` and its regression tests.
 
 ## Current decision
 
