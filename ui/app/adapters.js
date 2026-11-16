@@ -1,4 +1,5 @@
 import { fixtureContext, fixtureTasks } from "./fixtures.js";
+import { assertReadEnvelope, createReadEnvelope } from "./source-contracts.js";
 
 export const READ_MODE = "read-only";
 
@@ -12,15 +13,7 @@ export class AdapterError extends Error {
 }
 
 function envelope(data, source, options = {}) {
-  return {
-    mode: READ_MODE,
-    source,
-    data,
-    freshness: options.freshness || "current",
-    partial: Boolean(options.partial),
-    verified: options.verified !== false,
-    receivedAt: "2026-11-14T00:00:00+08:00"
-  };
+  return assertReadEnvelope(createReadEnvelope(data, source, options));
 }
 
 function outcome(options = {}) {
