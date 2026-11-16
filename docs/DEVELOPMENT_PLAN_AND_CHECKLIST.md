@@ -524,6 +524,7 @@ At each review, record:
 
 - Completed: G1–G40, including frontend foundation, synthetic authenticated UAT, source reconciliation, integration harness, and controlled readiness records.
 - In progress/HOLD: G41–G46 production closure. Local gate contracts, candidate schema, bounded-write controls, operations gate, external-UAT gate, and final GO evaluator are implemented.
+- Release evidence control: `docs/PRODUCTION_RELEASE_EVIDENCE_MANIFEST.md` maps each gate to its required proof and activation boundary.
 - Current working source: clean local branch `codex/g23-local-reconciliation`; latest release-control commit `064dbab`.
 - Current tests: **173 passing**; no production/customer-data/write authorization.
 - Current external evidence: Supabase remains Free tier with leaked-password protection unavailable/disabled; real Contract Diary and QS endpoints, production credentials, production migrations, operations evidence, external UAT, and owner acceptance are not yet supplied or verified.
