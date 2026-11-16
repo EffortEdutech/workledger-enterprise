@@ -48,4 +48,10 @@ export function readContractChronology(options = {}) {
   return envelope({ events: [{ id: "EV-214", type: "observation-verified", actor: "independent-reviewer", occurredAt: "2026-11-14T09:20:00+08:00" }, { id: "EV-209", type: "diary-acknowledged", actor: "contract-diary", occurredAt: "2026-11-12T18:10:00+08:00" }] }, "contract-diary.audit-events");
 }
 
-export const readAdapters = { readProjectContext, readProgramme, readBoqProvenance, readDiaryEvidence, readContractChronology };
+export function readReconciliation(options = {}) {
+  outcome(options);
+  const drift = options.drift === "revision" ? [{ code: "qs-revision-drift", severity: "high", state: "stale" }] : options.drift === "scope" ? [{ code: "contract-scope-mismatch", severity: "high", state: "blocked" }] : [];
+  return envelope({ state: drift.length ? "blocked" : "reconciled", projectId: fixtureContext.project.id, contractId: fixtureContext.contract.id, sources: ["contract-diary.evidence", "qs.accepted-baseline", "qs.boq-revision"], drift, provenance: { diary: "D-2026-1112 · sha256:synthetic-sha-diary1112", programme: "QS-PROG-v3 · sha256:synthetic-manifest-9f2a81", boq: "BOQ-REV-02 · sha256:synthetic-boq-02" } }, "workledger.reconciliation", { freshness: drift.length ? "stale" : "current" });
+}
+
+export const readAdapters = { readProjectContext, readProgramme, readBoqProvenance, readDiaryEvidence, readContractChronology, readReconciliation };
