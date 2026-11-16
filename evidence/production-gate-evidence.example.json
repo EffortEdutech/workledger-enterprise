@@ -1,0 +1,13 @@
+{
+  "production-identity": "HOLD",
+  "source-connectivity": "HOLD",
+  "schema-migrations": "HOLD",
+  "rls-policy-proof": "HOLD",
+  "write-controls": "HOLD",
+  "auth-security": "HOLD",
+  "secrets-and-environments": "HOLD",
+  "monitoring-and-rollback": "HOLD",
+  "external-uat": "HOLD",
+  "audit-cipaa-traceability": "PASS",
+  "owner-acceptance": "HOLD"
+}
