@@ -1,0 +1,10 @@
+{
+  "name": "WorkLedger Field Diary",
+  "short_name": "WLE Diary",
+  "start_url": "./index.html#diary",
+  "display": "standalone",
+  "background_color": "#f4f7f8",
+  "theme_color": "#12384c",
+  "description": "Synthetic WorkLedger site diary capture demo",
+  "icons": []
+}

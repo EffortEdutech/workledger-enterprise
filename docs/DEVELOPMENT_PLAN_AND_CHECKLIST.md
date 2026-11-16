@@ -533,6 +533,7 @@ At each review, record:
 - Latest read-only schema inventory: only synthetic staging objects are present for WorkLedger (`wle_staging.release_readiness`, `public.wle_staging_read_model`, `public.wle_staging_appointments`); staging constraints retain `writes_enabled = false`, `synthetic-only`, and `read_only = true`. This confirms the production candidate remains unapplied.
 - Current state: **GO for internal synthetic development/testing; NO-GO for production, external users, customer data, and writes.**
 - Functional demo milestone: `docs/FUNCTIONAL_PRODUCTION_DEMO_RELEASE.md` defines the acceptance matrix for the presentation-ready zero-budget release.
+- Field Diary PWA milestone: `docs/FIELD_DIARY_PWA_RELEASE.md` tracks the mobile capture, offline draft, and controlled-sync work.
 
 Next three concrete closure tasks:
 
