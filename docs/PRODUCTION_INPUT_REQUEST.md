@@ -45,3 +45,5 @@ This is the controlled handoff for completing G41–G46. Send identifiers, redac
 ## Submission rule
 
 Each input must identify its environment, timestamp, source system, and redaction status. Until the evidence is read back and recorded in `docs/PRODUCTION_RELEASE_EVIDENCE_MANIFEST.md`, the corresponding gate remains `HOLD`.
+
+After assembling the redacted gate map locally, run `npm run release:audit -- path\to\evidence.json`. The command fails closed when no file is supplied and exits successfully only when all 11 gates are exactly `PASS`.

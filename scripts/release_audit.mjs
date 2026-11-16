@@ -1,7 +1,13 @@
+import { readFile } from 'node:fs/promises';
 import { evaluateFinalGoLive, finalGoLiveInputs } from '../src/integration/finalGoLiveGate.mjs';
 
 const evidence = Object.fromEntries(finalGoLiveInputs.map((key) => [key, 'HOLD']));
 evidence['audit-cipaa-traceability'] = 'PASS';
+
+const evidencePath = process.argv[2];
+if (evidencePath) {
+  Object.assign(evidence, JSON.parse(await readFile(evidencePath, 'utf8')));
+}
 
 const result = evaluateFinalGoLive(evidence);
 console.log(JSON.stringify({
