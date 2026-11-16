@@ -1,0 +1,28 @@
+import { chromium } from 'playwright';
+import fs from 'node:fs/promises';
+
+const base = 'https://workledger-enterprise.vercel.app/ui/app/index.html';
+const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+await page.goto(`${base}#projects`, { waitUntil: 'domcontentloaded', timeout: 15000 });
+await page.waitForTimeout(500);
+const results = [];
+const text = () => page.locator('body').innerText();
+results.push(['projects', (await text()).includes('Project')]);
+await page.locator('select.role').selectOption('quantity-surveyor');
+await page.locator('[data-view="programme"]').click({ timeout: 5000 });
+await page.locator('[data-workflow="accept-baseline"]').click();
+results.push(['programme accepted', (await text()).includes('accepted')]);
+await page.screenshot({ path: 'evidence/g28-programme-accepted.png', fullPage: true });
+await page.locator('[data-view="boq"]').click({ timeout: 5000 });
+await page.locator('[data-workflow="lock-boq"]').click();
+results.push(['boq locked', (await text()).includes('locked')]);
+await page.screenshot({ path: 'evidence/g28-boq-locked.png', fullPage: true });
+await page.locator('select.role').selectOption('auditor-legal-reviewer');
+await page.locator('[data-view="audit"]').click({ timeout: 5000 });
+await page.locator('[data-workflow="filter-audit"]').click();
+results.push(['audit filtered', (await text()).includes('filtered')]);
+await page.screenshot({ path: 'evidence/g28-audit-filtered.png', fullPage: true });
+console.log(JSON.stringify({ url: page.url(), results }, null, 2));
+if (results.some(([, ok]) => !ok)) process.exitCode = 1;
+await browser.close();

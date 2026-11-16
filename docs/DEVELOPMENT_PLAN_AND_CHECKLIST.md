@@ -546,3 +546,4 @@ A goal is complete only when:
 5. The responsible owner accepts the result.
 6. Any remaining risk is recorded with an owner and disposition.
 
+2026-11-16 | G28 | COMPLETE | Workflow coverage and UX acceptance delivered: programme/BOQ/audit transitions, provenance/review/evidence states, seven role journeys, 137 passing tests, stable staging deployment, and acceptance screenshots.

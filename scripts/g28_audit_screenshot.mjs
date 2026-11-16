@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
+const p = await b.newPage({ viewport: { width: 1440, height: 1000 } });
+await p.goto('https://workledger-enterprise.vercel.app/ui/app/index.html#audit', { waitUntil: 'domcontentloaded', timeout: 15000 });
+await p.waitForTimeout(500);
+const role = p.locator('select.role');
+if (await role.count()) await role.selectOption('auditor-legal-reviewer');
+const audit = p.locator('[data-view="audit"]');
+if (await audit.count()) await audit.click();
+await p.locator('[data-workflow="filter-audit"]').click({ timeout: 5000 });
+await p.screenshot({ path: 'evidence/g28-audit-filtered.png', fullPage: true });
+console.log((await p.locator('body').innerText()).includes('filtered'));
+await b.close();
