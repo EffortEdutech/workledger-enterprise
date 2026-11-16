@@ -18,7 +18,7 @@ test('field diary capture exposes required fields and demo-only boundaries', asy
   assert.match(app, /name="manpower"/);
   assert.match(app, /name="activities"/);
   assert.match(app, /name="observations"/);
-  assert.match(app, /accept="image\/*"/);
+  assert.match(app, /accept="image\/\*"/);
   assert.match(app, /controlled adapter is enabled/);
   assert.match(app, /synthetic only/);
 });
