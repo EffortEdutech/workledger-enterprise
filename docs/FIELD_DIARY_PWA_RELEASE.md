@@ -68,3 +68,13 @@ Owner-provided result (2026-11-17): **GREEN** for PWA installation from the brow
 - Latest READY deployment `dpl_ACFuzQs6vCiknRTmPEQ76JhyqntU` was assigned to `workledger-enterprise.vercel.app`.
 - Stable-domain server readback confirmed current HTML and `app.js` include the G43 handoff; direct deployment browser verification showed the handoff and review queue.
 - Regression suite: 181 tests passed.
+
+## G44 review and programme actuals acceptance (2026-11-17)
+
+- Quantity Surveyor opened the synthetic `QS-1071` review, transitioned it to **In review**, then **Verified**.
+- The Programme route displayed `Programme actuals · QS-1071` with `18.5000 m³ verified` and `Included in observational projection`.
+- The programme card retained source diary `D-2026-1112`, evidence `EVD-8801`, baseline v3, and pinned digest lineage.
+- Independent Reviewer saw the verified review state and the same handoff/evidence lineage in the Progress route.
+- Rejected and stale/source-missing outcomes remain explicit and excluded from verified programme projection.
+- Latest READY deployment: `dpl_DN9tzkbNWLeX3j7fqn3vcitV6tCG`.
+- Regression suite: 182 tests passed.
