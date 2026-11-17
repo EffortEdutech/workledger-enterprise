@@ -28,6 +28,6 @@ test("provenance, evidence, review, timeline, and audit UX patterns remain wired
   for (const pattern of ["provenanceDrawer", "evidenceCard", "reviewQueue", "fieldDiaryHandoff", "timeline", "readAuditPackage"]) assert.match(app, new RegExp(pattern));
 });
 
-test("G43 admin handoff preserves diary, programme, evidence, and write-boundary markers", () => {
-  for (const marker of ["Field Diary handoff", "QS-1071", "audit/CIPAA traceable", "writesEnabled: false", "Open admin review"]) assert.match(app, new RegExp(marker));
+test("G44 review and programme actuals preserve decision and lineage markers", () => {
+  for (const marker of ["reject-review", "Programme actuals", "Verified diary evidence", "Excluded from verified projection", "Digest pinned"]) assert.match(app, new RegExp(marker));
 });

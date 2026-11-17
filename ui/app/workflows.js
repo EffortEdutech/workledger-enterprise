@@ -4,6 +4,7 @@ const initialWorkflow = Object.freeze({
   diaryState: "acknowledged",
   evidenceState: "verified",
   reviewState: "pending",
+  reviewDecision: "pending",
   programmeState: "accepted",
   boqState: "locked",
   provenanceState: "closed",
@@ -21,7 +22,8 @@ export function applyWorkflowAction(state, action) {
   else if (action === "acknowledge-diary") { next.diaryState = "acknowledged"; next.lastAction = "Diary D-2026-1112 acknowledged"; }
   else if (action === "verify-evidence") { next.evidenceState = "verified"; next.lastAction = "Evidence EVD-8801 verified"; }
   else if (action === "open-review") { next.reviewState = "in_review"; next.lastAction = "Observation QS-1071 opened for review"; }
-  else if (action === "complete-review") { next.reviewState = "verified"; next.lastAction = "Observation QS-1071 independently verified"; }
+  else if (action === "complete-review") { next.reviewState = "verified"; next.reviewDecision = "verified"; next.lastAction = "Observation QS-1071 independently verified"; }
+  else if (action === "reject-review") { next.reviewState = "rejected"; next.reviewDecision = "rejected"; next.lastAction = "Observation QS-1071 rejected pending correction"; }
   else if (action === "accept-baseline") { next.programmeState = "accepted"; next.lastAction = "Programme baseline v3 accepted"; }
   else if (action === "lock-boq") { next.boqState = "locked"; next.lastAction = "BOQ-REV-02 locked for review"; }
   else if (action === "open-provenance") { next.provenanceState = "open"; next.lastAction = "Provenance lineage opened"; }
@@ -37,6 +39,7 @@ export function workflowSummary(state) {
     diary: state.diaryState,
     evidence: state.evidenceState,
     review: state.reviewState,
+    reviewDecision: state.reviewDecision,
     programme: state.programmeState,
     boq: state.boqState,
     provenance: state.provenanceState,

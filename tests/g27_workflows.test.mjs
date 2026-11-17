@@ -30,3 +30,12 @@ test("G27 review workflow supports open and complete without persistence", () =>
 test("G27 rejects unknown actions", () => {
   assert.throws(() => applyWorkflowAction(createWorkflowState(), "write-to-backend"), /unknown-workflow-action/);
 });
+
+test("G44 review decisions control programme actual inclusion", () => {
+  let state = applyWorkflowAction(createWorkflowState(), "open-review");
+  state = applyWorkflowAction(state, "reject-review");
+  assert.equal(workflowSummary(state).reviewDecision, "rejected");
+  state = applyWorkflowAction(createWorkflowState(), "open-review");
+  state = applyWorkflowAction(state, "complete-review");
+  assert.equal(workflowSummary(state).reviewDecision, "verified");
+});
