@@ -22,3 +22,8 @@ test('synthetic sync receipt preserves scope and audit/CIPAA lineage without ena
   assert.equal(receipt.provenance.cipaaTraceable, true);
   assert.equal(receipt.writesEnabled, false);
 });
+
+test('synthetic sync receipt rejects incomplete or invalid operational input', () => {
+  assert.throws(() => buildSyntheticSyncReceipt({ date: '2026-11-17', activities: '' }), /diary-required-fields/);
+  assert.throws(() => buildSyntheticSyncReceipt({ date: '2026-11-17', activities: 'Pour', manpower: '12.5' }), /diary-invalid-manpower/);
+});

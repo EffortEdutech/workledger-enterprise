@@ -11,7 +11,8 @@ export function saveFieldDiaryDraft(draft, storage = localStorage) {
 }
 
 export function buildSyntheticSyncReceipt(draft) {
-  if (!draft || !draft.date || !draft.activities) throw new Error("diary-required-fields");
+  if (!draft || !draft.date || !String(draft.activities || "").trim()) throw new Error("diary-required-fields");
+  if (draft.manpower !== "" && draft.manpower != null && (!/^\d+$/.test(String(draft.manpower)) || Number(draft.manpower) < 0)) throw new Error("diary-invalid-manpower");
   return {
     receiptId: `local-diary-${draft.date}`,
     state: "pending-sync",
