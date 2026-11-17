@@ -46,3 +46,16 @@ Owner-provided result (2026-11-17): **GREEN** for PWA installation from the brow
 - Admin and Field Diary are currently one role-based frontend application; they are not separate deployed apps.
 - Supabase remains read-only/fixture fallback and writes are disabled.
 - No real customer data, external-user onboarding, or production identity is authorised by this release.
+
+## G42 operational acceptance (2026-11-17)
+
+- Site Supervisor and Site Manager routes were verified on the stable application route.
+- Diary capture supports date, weather, manpower, activities, observations, and local evidence-photo selection.
+- Offline draft persistence was verified; saved drafts remain on the device.
+- Complete diary submission produces `Diary queued locally · awaiting controlled sync`.
+- Incomplete activities/date and invalid manpower inputs produce a correction state rather than a sync receipt.
+- Synthetic receipt retains project, contract, appointment scope, evidence count, provenance, audit/CIPAA traceability, and `writesEnabled: false`.
+- Service-worker cache versioning and update checks were added so installed clients can receive later releases.
+- Automated regression suite: 180 tests passed.
+- Latest corrected deployment: `dpl_9dUqwyKpWoq7KT2sW1BZV82EpH6M`, commit `98caa8e`.
+- Acceptance remains synthetic/demo-only; no customer data or backend write was used.
