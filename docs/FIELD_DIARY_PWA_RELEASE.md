@@ -59,3 +59,12 @@ Owner-provided result (2026-11-17): **GREEN** for PWA installation from the brow
 - Automated regression suite: 180 tests passed.
 - Latest corrected deployment: `dpl_9dUqwyKpWoq7KT2sW1BZV82EpH6M`, commit `98caa8e`.
 - Acceptance remains synthetic/demo-only; no customer data or backend write was used.
+
+## G43 admin handoff acceptance (2026-11-17)
+
+- The admin Progress route now exposes a Field Diary handoff card for the Site Personnel → Site Manager → Admin review journey.
+- The handoff displays receipt/state, programme task `QS-1071`, evidence count, local custody, Contract Diary lineage, audit/CIPAA traceability, and `writesEnabled: false`.
+- Admin review and provenance actions remain local synthetic workflow actions.
+- Latest READY deployment `dpl_ACFuzQs6vCiknRTmPEQ76JhyqntU` was assigned to `workledger-enterprise.vercel.app`.
+- Stable-domain server readback confirmed current HTML and `app.js` include the G43 handoff; direct deployment browser verification showed the handoff and review queue.
+- Regression suite: 181 tests passed.
