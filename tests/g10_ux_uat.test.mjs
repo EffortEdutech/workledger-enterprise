@@ -25,5 +25,9 @@ test("UX boundary remains adapter- and authorization-backed", () => {
 });
 
 test("provenance, evidence, review, timeline, and audit UX patterns remain wired", () => {
-  for (const pattern of ["provenanceDrawer", "evidenceCard", "reviewQueue", "timeline", "readAuditPackage"]) assert.match(app, new RegExp(pattern));
+  for (const pattern of ["provenanceDrawer", "evidenceCard", "reviewQueue", "fieldDiaryHandoff", "timeline", "readAuditPackage"]) assert.match(app, new RegExp(pattern));
+});
+
+test("G43 admin handoff preserves diary, programme, evidence, and write-boundary markers", () => {
+  for (const marker of ["Field Diary handoff", "QS-1071", "audit/CIPAA traceable", "writesEnabled: false", "Open admin review"]) assert.match(app, new RegExp(marker));
 });
