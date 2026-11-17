@@ -1,4 +1,4 @@
-const CACHE = 'wle-field-diary-v1';
+const CACHE = 'wle-field-diary-v2';
 const SHELL = ['./', './index.html', './styles.css', './components.css', './app.js', './fixtures.js', './workflows.js', './adapters.js', './authorization.js', './audit.js', './supabase-config.js', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting())));
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
