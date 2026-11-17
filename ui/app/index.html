@@ -14,6 +14,6 @@
   <div id="app"></div>
   <noscript>WorkLedger Enterprise requires JavaScript to display the local prototype.</noscript>
   <script type="module" src="./app.js"></script>
-  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});</script>
+  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=2').then((registration) => registration.update()).catch(() => {});</script>
 </body>
 </html>
