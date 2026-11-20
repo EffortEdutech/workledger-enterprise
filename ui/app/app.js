@@ -6,11 +6,12 @@ import { supabaseConfig } from "./supabase-config.js";
 import { clearSession, readScope, readScopedRows, readSession, signIn } from "./auth.js";
 import { applyWorkflowAction, createWorkflowState, workflowSummary } from "./workflows.js";
 import { buildSyntheticSyncReceipt, readFieldDiaryDraft, saveFieldDiaryDraft } from "./fieldDiary.js";
+import { clientPortfolio } from "./clientPortfolio.js";
 
 const initialView = window.location.hash.slice(1);
 const uatExpired = new URLSearchParams(window.location.search).get("uat") === "expired";
 const initialSession = uatExpired ? { access_token: "expired.synthetic.token", user: { email: "synthetic-expired@test.workledger.local" } } : readSession();
-const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], query: "", supabaseStatus: "pending", session: initialSession, scope: null, authRows: null, authState: initialSession ? "loading" : "signed-out", authMessage: "Sign in with a synthetic staging user.", workflow: createWorkflowState(), workflowMessage: "Synthetic workflow ready · writes disabled" };
+const state = { view: navItems.some((item) => item.id === initialView) ? initialView : "home", role: roles[0], selectedClientId: clientPortfolio[0].id, query: "", supabaseStatus: "pending", session: initialSession, scope: null, authRows: null, authState: initialSession ? "loading" : "signed-out", authMessage: "Sign in with a synthetic staging user.", workflow: createWorkflowState(), workflowMessage: "Synthetic workflow ready · writes disabled" };
 const root = document.querySelector("#app");
 const titleMap = Object.fromEntries(navItems.map((item) => [item.id, item.label]));
 let readModels = { context: readProjectContext(), programme: readProgramme(), boq: readBoqProvenance(), diary: readDiaryEvidence(), chronology: readContractChronology(), reconciliation: readReconciliation() };
@@ -20,6 +21,8 @@ function can(capability) { return state.role.capabilities.includes(capability); 
 function authPanel() { if (state.session) { const appointment = state.scope?.[0]; const label = state.authState === "loading" ? "Scope loading" : state.authState === "revoked" ? "Appointment revoked" : state.authState === "denied" ? "Scope denied · no rows available" : "Scoped read verified"; const kind = state.authState === "allowed" ? "good" : "warn"; return '<div class="auth-panel"><span>Authenticated: '+(state.session.user?.email || "synthetic user")+' · '+(appointment?.appointment_scope || "scope loading")+' '+pill(label,kind)+'</span><button class="btn" data-signout>Sign out</button></div>'; } return '<form class="auth-panel" id="auth-form"><input name="email" type="email" required placeholder="Synthetic user email" aria-label="Synthetic user email"><input name="password" type="password" required placeholder="Synthetic user password"><button class="btn primary" type="submit">Sign in</button><span class="muted">'+state.authMessage+'</span></form>'; }
 function pill(label, kind = "") { return '<span class="pill '+kind+'">'+label+"</span>"; }
 function metric(label, value, note) { return '<div class="card metric"><small>'+label+"</small><strong>"+value+"</strong><span>"+note+"</span></div>"; }
+function selectedClient() { return clientPortfolio.find((client) => client.id === state.selectedClientId) || clientPortfolio[0]; }
+function clientSelector() { return '<select class="client-selector" aria-label="Demo client">'+clientPortfolio.map((client) => '<option value="'+client.id+'" '+(client.id === state.selectedClientId ? "selected" : "")+'>'+client.name+'</option>').join("")+'</select>'; }
 function table(headers, rows) { return '<div class="table-wrap"><table><thead><tr>'+headers.map((h) => "<th>"+h+"</th>").join("")+"</tr></thead><tbody>"+rows.join("")+"</tbody></table></div>"; }
 function heading(title, subtitle) { return '<div class="heading"><div><h1>'+title+"</h1><p>"+subtitle+'</p></div><div class="actions"><button class="btn primary" data-action="fixture">Prototype action</button></div></div>'; }
 function home() {
