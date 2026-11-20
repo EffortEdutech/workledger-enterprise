@@ -523,11 +523,11 @@ At each review, record:
 ## Current progress snapshot — 20 November 2026
 
 - Completed: G1–G40, including frontend foundation, synthetic authenticated UAT, source reconciliation, integration harness, and controlled readiness records.
-- Completed: G41–G47 stable functional-demo release, Field Diary operational workflow, admin handoff, programme actuals demonstration, simulated go-live proof, demo packaging, and owner-facing stakeholder demo record.
+- Completed: G41–G49 stable functional-demo release, Field Diary operational workflow, admin handoff, programme actuals demonstration, simulated go-live proof, demo packaging, stakeholder demo record, and simulated multi-client portfolio presentation.
 - Release evidence control: `docs/PRODUCTION_RELEASE_EVIDENCE_MANIFEST.md` maps each gate to its required proof and activation boundary.
 - External handoff: `docs/PRODUCTION_INPUT_REQUEST.md` lists the redacted production inputs required to move each HOLD gate.
 - Current working source: clean local branch `codex/g23-local-reconciliation`; latest release-control commit `064dbab`.
-- Current tests: **182 passing**; no production/customer-data/write authorization.
+- Current tests: **185 passing**; no production/customer-data/write authorization.
 - Current external evidence: Supabase remains Free tier with leaked-password protection unavailable/disabled; real Contract Diary and QS endpoints, production credentials, production migrations, operations evidence, external UAT, and owner acceptance are not yet supplied or verified.
 - Latest Supabase readback (2026-11-16): project `gumlaaqfxxkdlwuusfhv` is `ACTIVE_HEALTHY`, but migration history contains only `g12_staging_readiness_boundary`, `g16_scope_boundary_proof`, and `g17_authenticated_scope_boundary`; security advisors still report the intentional `wle_staging.release_readiness` no-policy INFO and `auth_leaked_password_protection` WARN. No production candidate migration was applied.
 - Latest read-only schema inventory: only synthetic staging objects are present for WorkLedger (`wle_staging.release_readiness`, `public.wle_staging_read_model`, `public.wle_staging_appointments`); staging constraints retain `writes_enabled = false`, `synthetic-only`, and `read_only = true`. This confirms the production candidate remains unapplied.
@@ -537,6 +537,7 @@ At each review, record:
 - Functional demo acceptance: `docs/G45_SIMULATED_GO_LIVE_ACCEPTANCE.md`.
 - Demo presentation package: `docs/G46_FUNCTIONAL_DEMO_PRESENTATION_PACKAGE.md`.
 - Stakeholder demo and feedback record: `docs/G47_STAKEHOLDER_DEMO_FEEDBACK_AND_ACCEPTANCE.md`.
+- Simulated client portfolio presentation: `docs/G49_SIMULATED_CLIENT_PORTFOLIO_PRESENTATION.md`.
 
 Next three concrete closure tasks:
 
@@ -579,3 +580,4 @@ A goal is complete only when:
 2026-11-17 | G46 | COMPLETE | Functional Demo Release Packaging and Presentation Readiness delivered with reset guidance, role journeys, script, capability matrix, routes, and limitations.
 2026-11-17 | G47 | COMPLETE | Stakeholder Demo Execution and Feedback Closure recorded; no release-blocking defect identified, enhancements and future secure-production requirements prioritized.
 2026-11-20 | G48 | COMPLETE | Development plan reconciled with G41–G47 functional-demo completion, 182-test evidence, current boundaries, and separate future secure-production track.
+2026-11-20 | G49 | COMPLETE | Simulated Client Portfolio and Partner Presentation Go-Live delivered: three fictional client seeds, selectable portfolio narrative, synthetic-only boundary, live deployment verification, and 185 passing tests.

@@ -1,6 +1,6 @@
 # G49 — Simulated Client Portfolio and Partner Presentation Go-Live
 
-Status: **IN PROGRESS — PORTFOLIO SEED CREATED**  
+Status: **COMPLETE — SIMULATED CLIENT PRESENTATION GO-LIVE**
 Release class: fictional client simulation
 
 ## Fictional partner-demo clients
@@ -44,7 +44,9 @@ Each fictional project is intended to carry:
 
 ## Current evidence
 
-- Portfolio fixture and summary tests added.
+- Portfolio fixture and summary tests added; the full suite passes with **185 tests**.
+- Live deployment verified at `https://workledger-enterprise-2c3a4zjho-eff-edus-projects.vercel.app/ui/app/index.html#progress` from commit `aca90b9` / deployment `dpl_2oxCgJWnfuBpHMhkKAUfW2MDhxMz`.
+- The Projects view visibly presents the Northbank seed, exposes the presentation-client selector, and switches to Meridian with its project, contract, programme/BOQ, and diary/evidence counts updated. Harbourview is included as the third selectable seed.
 - Existing functional-demo acceptance: `docs/G45_SIMULATED_GO_LIVE_ACCEPTANCE.md`.
 - Presentation package: `docs/G46_FUNCTIONAL_DEMO_PRESENTATION_PACKAGE.md`.
 - Stakeholder acceptance: `docs/G47_STAKEHOLDER_DEMO_FEEDBACK_AND_ACCEPTANCE.md`.
