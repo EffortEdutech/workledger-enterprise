@@ -520,26 +520,29 @@ At each review, record:
 - Scope changes and deferred items.
 - Next three concrete tasks.
 
-## Current progress snapshot — 16 November 2026
+## Current progress snapshot — 20 November 2026
 
 - Completed: G1–G40, including frontend foundation, synthetic authenticated UAT, source reconciliation, integration harness, and controlled readiness records.
-- In progress/HOLD: G41–G46 production closure. Local gate contracts, candidate schema, bounded-write controls, operations gate, external-UAT gate, and final GO evaluator are implemented.
+- Completed: G41–G47 stable functional-demo release, Field Diary operational workflow, admin handoff, programme actuals demonstration, simulated go-live proof, demo packaging, and owner-facing stakeholder demo record.
 - Release evidence control: `docs/PRODUCTION_RELEASE_EVIDENCE_MANIFEST.md` maps each gate to its required proof and activation boundary.
 - External handoff: `docs/PRODUCTION_INPUT_REQUEST.md` lists the redacted production inputs required to move each HOLD gate.
 - Current working source: clean local branch `codex/g23-local-reconciliation`; latest release-control commit `064dbab`.
-- Current tests: **173 passing**; no production/customer-data/write authorization.
+- Current tests: **182 passing**; no production/customer-data/write authorization.
 - Current external evidence: Supabase remains Free tier with leaked-password protection unavailable/disabled; real Contract Diary and QS endpoints, production credentials, production migrations, operations evidence, external UAT, and owner acceptance are not yet supplied or verified.
 - Latest Supabase readback (2026-11-16): project `gumlaaqfxxkdlwuusfhv` is `ACTIVE_HEALTHY`, but migration history contains only `g12_staging_readiness_boundary`, `g16_scope_boundary_proof`, and `g17_authenticated_scope_boundary`; security advisors still report the intentional `wle_staging.release_readiness` no-policy INFO and `auth_leaked_password_protection` WARN. No production candidate migration was applied.
 - Latest read-only schema inventory: only synthetic staging objects are present for WorkLedger (`wle_staging.release_readiness`, `public.wle_staging_read_model`, `public.wle_staging_appointments`); staging constraints retain `writes_enabled = false`, `synthetic-only`, and `read_only = true`. This confirms the production candidate remains unapplied.
-- Current state: **GO for internal synthetic development/testing; NO-GO for production, external users, customer data, and writes.**
+- Current state: **GO for functional production-demo presentation and controlled synthetic evaluation; NO-GO for secure client production, external users, customer data, and live writes.**
 - Functional demo milestone: `docs/FUNCTIONAL_PRODUCTION_DEMO_RELEASE.md` defines the acceptance matrix for the presentation-ready zero-budget release.
 - Field Diary PWA milestone: `docs/FIELD_DIARY_PWA_RELEASE.md` tracks the mobile capture, offline draft, and controlled-sync work.
+- Functional demo acceptance: `docs/G45_SIMULATED_GO_LIVE_ACCEPTANCE.md`.
+- Demo presentation package: `docs/G46_FUNCTIONAL_DEMO_PRESENTATION_PACKAGE.md`.
+- Stakeholder demo and feedback record: `docs/G47_STAKEHOLDER_DEMO_FEEDBACK_AND_ACCEPTANCE.md`.
 
 Next three concrete closure tasks:
 
-1. Configure and verify production identity/Auth hardening and approved real Contract Diary/QS read connectivity.
-2. Apply the reviewed production schema/RLS migration in a controlled environment, then prove bounded audited writes and rollback.
-3. Execute authorized external UAT, collect monitoring/rollback evidence, obtain explicit owner acceptance, and run the final 11-gate GO evaluator.
+1. Implement P2 demo conveniences: reset control, presentation screenshots, and compact feedback capture.
+2. Convert approved stakeholder enhancements into the next functional implementation goal.
+3. Open secure client-production planning only under explicit authorization, with identity, source connectivity, schema/RLS, writes, operations, external UAT, and owner-acceptance gates kept separate.
 
 ## Definition of done
 
@@ -566,10 +569,13 @@ A goal is complete only when:
 2026-11-16 | G39 | COMPLETE | End-to-end synthetic connector→reconciliation flow validated for success, source denial, revision drift, and stable reconciliation UX; 159 tests pass; real endpoints and writes remain disabled.
 2026-11-16 | G40 | COMPLETE | Controlled integration readiness gate recorded: required real endpoint/credential/scope/rollback/audit inputs defined, unsafe configuration denied, no network or customer-data access performed; non-synthetic pilot remains HOLD.
 2026-11-16 | FINAL | HOLD | Final Production Go-Live Decision audited: synthetic audit/CIPAA traceability passes, but production identity, real source connectivity, schema/RLS, writes, Auth security, secrets, monitoring/rollback, external UAT, and production owner acceptance remain unresolved.
-2026-11-16 | G41 | IN PROGRESS / HOLD | Supabase production identity audit confirms Free tier and leaked-password protection WARN/disabled; closure actions recorded, but no billing or Auth change made.
-2026-11-16 | G42 | IN PROGRESS / HOLD | Bounded audited write contract prepared locally with actor/appointment/scope/idempotency controls; commands remain disabled pending production schema, RLS, Auth, migration, audit, and owner gates; 165 tests pass.
-2026-11-16 | G43 | IN PROGRESS / HOLD | Production candidate migration prepared with scoped appointments, append-only audit events, idempotency, constrained event types, RLS/FORCE RLS, and intentional default deny; not applied pending Auth/source/rollback/owner gates.
-2026-11-16 | G44 | IN PROGRESS / HOLD | Production operations gate defined for secrets, environment separation, monitoring, backups, rollback, incident response, and write-disable safety; no production operations activated.
-2026-11-16 | G45 | IN PROGRESS / HOLD | External UAT authorization gate defined; approved identities/data/source receipts/role journeys/audit review/rollback/owner acceptance required; no external users or customer data authorized.
-2026-11-16 | G46 | IN PROGRESS / HOLD | Final evaluator now requires explicit PASS for all 11 production gates; current evidence has audit/CIPAA traceability only, so production access, customer data, external users, and writes remain disabled.
+2026-11-16 | SECURE-PRODUCTION TRACK | DEFERRED | Supabase/Auth, bounded writes, production schema/RLS, operations, external UAT, and final production gates remain future secure-production work; no production access, customer data, external users, or writes authorized.
 2026-11-16 | FINAL GO-LIVE DECISION | HOLD | Production audit completed; synthetic audit/CIPAA traceability passes, but production identity, real source connectivity, schema/RLS, writes, Auth security, secrets, operations, external UAT, and production owner acceptance remain open.
+2026-11-17 | G41 | COMPLETE | Stable Admin and Field PWA release verified; admin default route retained, Site Supervisor/Site Manager diary route verified, offline draft acceptance recorded, 179 tests passed.
+2026-11-17 | G42 | COMPLETE | Field Diary operational workflow hardened with input validation, local evidence handling, pending-sync receipt, service-worker refresh, and 180 passing tests.
+2026-11-17 | G43 | COMPLETE | Field Diary to Admin Review and Evidence Handoff delivered with diary receipt, QS task linkage, evidence custody, provenance, audit/CIPAA markers, and 181 passing tests.
+2026-11-17 | G44 | COMPLETE | Synthetic review decisions and Programme Actuals demonstration delivered; verified `QS-1071` actuals preserve diary/evidence/digest lineage; 182 tests passed.
+2026-11-17 | G45 | COMPLETE | Simulated Go-Live Proof and Functional Production-Demo Acceptance recorded; GO for synthetic presentation and NO-GO for real production, external users, customer data, and writes.
+2026-11-17 | G46 | COMPLETE | Functional Demo Release Packaging and Presentation Readiness delivered with reset guidance, role journeys, script, capability matrix, routes, and limitations.
+2026-11-17 | G47 | COMPLETE | Stakeholder Demo Execution and Feedback Closure recorded; no release-blocking defect identified, enhancements and future secure-production requirements prioritized.
+2026-11-20 | G48 | COMPLETE | Development plan reconciled with G41–G47 functional-demo completion, 182-test evidence, current boundaries, and separate future secure-production track.
