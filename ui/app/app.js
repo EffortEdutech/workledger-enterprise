@@ -23,6 +23,7 @@ function pill(label, kind = "") { return '<span class="pill '+kind+'">'+label+"<
 function metric(label, value, note) { return '<div class="card metric"><small>'+label+"</small><strong>"+value+"</strong><span>"+note+"</span></div>"; }
 function selectedClient() { return clientPortfolio.find((client) => client.id === state.selectedClientId) || clientPortfolio[0]; }
 function clientSelector() { return '<select class="client-selector" aria-label="Demo client">'+clientPortfolio.map((client) => '<option value="'+client.id+'" '+(client.id === state.selectedClientId ? "selected" : "")+'>'+client.name+'</option>').join("")+'</select>'; }
+function portfolioPanel() { const client = selectedClient(); const project = client.projects[0]; return '<section class="card portfolio-context"><div class="split"><h2>Demo client · '+client.name+'</h2>'+pill("Fictional seed","good")+'</div><p class="muted">'+client.sector+' · '+project.name+' · Contract '+project.contract+'</p><dl class="kv"><dt>Programme / BOQ</dt><dd>'+project.programme+' · '+project.boq+'</dd><dt>Diary / evidence</dt><dd>'+project.diaries+' diaries · '+project.evidence+' evidence records</dd><dt>Mode</dt><dd>Simulated client Go-Live · writes disabled</dd></dl><label>Switch presentation client '+clientSelector()+'</label></section>'; }
 function table(headers, rows) { return '<div class="table-wrap"><table><thead><tr>'+headers.map((h) => "<th>"+h+"</th>").join("")+"</tr></thead><tbody>"+rows.join("")+"</tbody></table></div>"; }
 function heading(title, subtitle) { return '<div class="heading"><div><h1>'+title+"</h1><p>"+subtitle+'</p></div><div class="actions"><button class="btn primary" data-action="fixture">Prototype action</button></div></div>'; }
 function home() {
@@ -52,7 +53,7 @@ function viewBody() {
   return '<div class="layout"><section class="card"><h2>Recent chronology</h2>'+timeline()+'</section>'+reviewQueue()+'</div>';
 }
 function workflowNotice() { return state.workflowMessage ? '<div class="notice workflow-notice" role="status" aria-live="polite">'+state.workflowMessage+'</div>' : ''; }
-function genericView() { return heading(titleMap[state.view], "Frontend foundation view using deterministic local fixtures.")+workflowNotice()+viewBody(); }
+function genericView() { return heading(titleMap[state.view], "Frontend foundation view using deterministic local fixtures.")+portfolioPanel()+workflowNotice()+viewBody(); }
 function render() {
   const identityId = previewIdentityByRole[state.role.id] || "user-project-director";
   const visible = navItems.filter((item) => { try { authorizeRead(identityId, item.id, { organisationId: fixtureContext.organisation.id, projectId: fixtureContext.project.id, contractId: fixtureContext.contract.id }); return true; } catch { return false; } });
@@ -65,6 +66,7 @@ function render() {
   if (signout) signout.addEventListener("click", () => { clearSession(); state.session = null; state.scope = null; state.authRows = null; state.authState = "signed-out"; state.authMessage = "Signed out; fixture fallback only."; render(); });
   root.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => { state.view = button.dataset.view; render(); }));
   root.querySelector(".role").addEventListener("change", (event) => { state.role = roles.find((role) => role.id === event.target.value); render(); });
+  root.querySelectorAll(".client-selector").forEach((selector) => selector.addEventListener("change", (event) => { state.selectedClientId = event.target.value; state.workflowMessage = "Demo client changed · synthetic only"; render(); }));
   root.querySelector(".search").addEventListener("input", (event) => { state.query = event.target.value; });
   root.querySelectorAll("[data-action]").forEach((button) => button.addEventListener("click", () => window.alert("Prototype action only. No backend call occurs.")));
   root.querySelectorAll("[data-workflow]").forEach((button) => button.addEventListener("click", () => { const action = button.dataset.workflow; state.workflow = applyWorkflowAction(state.workflow, action); state.workflowMessage = workflowSummary(state.workflow).lastAction + " · local only"; render(); if (action === "open-provenance") { let drawer = root.querySelector("#drawer"); if (!drawer) { root.insertAdjacentHTML("beforeend", provenanceDrawer()); drawer = root.querySelector("#drawer"); } drawer.hidden = false; } }));
