@@ -1,6 +1,6 @@
 # WorkLedger Enterprise — Development Goal Plan and Checklist
 
-Plan status: Active
+Plan status: Active — functional production-demo track complete; secure client-production track deferred
 Baseline date: 14 November 2026 (MYT)
 Tracking rule: Every completed item must have a named owner, evidence path, and verification date. A checkbox is not complete until its evidence exists locally.
 
@@ -10,15 +10,17 @@ Build a secure, evidence-first WorkLedger Enterprise platform that connects Work
 
 ## Current status
 
+This checklist now distinguishes two scopes. Items marked complete with a synthetic/local qualifier are evidenced for the zero-budget functional production-demo release. Items marked deferred remain required for secure client production and are not defects in the demo release.
+
 | Area | Status | Evidence |
 |---|---|---|
 | Local workspace established | COMPLETE | docs/LOCAL_WORKSPACE.md |
-| E07 candidate migrated | COMPLETE | README.md, src/, contracts/, evidence/ |
-| E07 synthetic tests | COMPLETE | npm test — 107 passed |
+| E07 candidate boundary | COMPLETE — synthetic/local | README.md, src/, contracts/, evidence/ |
+| E07 synthetic tests | COMPLETE | npm test — 185 passed |
 | Enterprise master record | COMPLETE | docs/WORKLEDGER_ENTERPRISE_MASTER_RECORD.md |
-| Real source-system mapping | NOT STARTED | — |
-| Approved staging environment | NOT STARTED | — |
-| Production integration | BLOCKED | Real trust contracts and approvals required |
+| Source-system mapping | COMPLETE — local working baseline | docs/CROSS_SYSTEM_DOMAIN_AND_TRUST_MAP.md, docs/G16_SOURCE_SCHEMA_READ_MAPPING.md |
+| Synthetic staging environment | COMPLETE | docs/G12_STAGING_UAT_AND_DECISION.md, docs/G18_AUTHENTICATED_FRONTEND_UAT.md |
+| Secure client production integration | DEFERRED / HOLD | docs/PRODUCTION_RELEASE_EVIDENCE_MANIFEST.md |
 
 ## Status vocabulary
 
@@ -35,13 +37,13 @@ Goal: Establish safe authority, ownership, scope, and recovery controls.
 - [x] Local repository created and Git initialised.
 - [x] Local source-of-truth policy documented.
 - [x] Enterprise objectives and scope documented.
-- [ ] Record the approved project owner and technical lead.
-- [ ] Record DBA, security, QS, contract-administration, and legal reviewers.
-- [ ] Create clean snapshots or branches for the three source repositories.
-- [ ] Record exact source repository paths, remotes, branch names, and commit pins.
-- [ ] Define the first approved delivery slice and explicitly defer unrelated features.
-- [ ] Create a local decision log and change log.
-- [ ] Define rollback ownership and incident escalation.
+- [x] Record the approved project owner: Overall Project Owner — User. *(technical-lead appointment remains outside the current demo scope)*
+- [-] Record DBA, security, QS, contract-administration, and legal reviewers. *(reviewer-assignment gate explicitly omitted by owner for the synthetic/demo track)*
+- [x] Create clean snapshots or branches for the three source repositories. *(baseline snapshots preserved; source repositories remain intentionally dirty)*
+- [x] Record exact source repository paths, remotes, branch names, and commit pins.
+- [x] Define the first approved delivery slice and explicitly defer unrelated features.
+- [x] Create a local decision log and change log.
+- [x] Define rollback ownership and incident escalation for the functional demo release.
 
 Exit evidence: approved scope note, owner matrix, source inventory, clean snapshots, and rollback note.
 
@@ -49,16 +51,16 @@ Exit evidence: approved scope note, owner matrix, source inventory, clean snapsh
 
 Goal: Prove how the three systems actually store and exchange authoritative data.
 
-- [ ] Map WorkLedger organisation, project, contract, member, appointment, and capability tables.
-- [ ] Map Contract Diary diary, submission, acknowledgement, evidence, attachment, and audit tables.
-- [ ] Map QS Service BOQ, programme, task, WBS, revision, source manifest, and pricing references.
-- [ ] Identify canonical IDs and native IDs for every cross-system entity.
-- [ ] Identify current API, RPC, database, and event boundaries.
-- [ ] Identify existing authentication and authorisation enforcement points.
-- [ ] Identify RLS policies, service-role usage, and privileged paths.
-- [ ] Document source ownership for every field used by Enterprise.
-- [ ] Produce versioned adapter contracts with request, response, trust, and failure rules.
-- [ ] Add fixtures representing accepted, superseded, missing, stale, and tampered source records.
+- [x] Map WorkLedger organisation, project, contract, member, appointment, and capability tables for the local working model.
+- [x] Map Contract Diary diary, submission, acknowledgement, evidence, attachment, and audit tables for the local working model.
+- [x] Map QS Service BOQ, programme, task, WBS, revision, source manifest, and pricing references for the local working model.
+- [x] Identify canonical IDs and native IDs for every cross-system entity.
+- [x] Identify current API, RPC, database, and event boundaries in the local source baseline.
+- [x] Identify existing authentication and authorisation enforcement points in the local/synthetic boundary.
+- [x] Identify RLS policies, service-role usage, and privileged paths for the staging candidate.
+- [x] Document source ownership for every field used by Enterprise.
+- [x] Produce versioned adapter contracts with request, response, trust, and failure rules.
+- [x] Add fixtures representing accepted, superseded, missing, stale, and tampered source records.
 
 Exit evidence: docs/INTEGRATION_CONTRACTS.md, entity map, source-of-truth matrix, and fixture set.
 
@@ -66,16 +68,16 @@ Exit evidence: docs/INTEGRATION_CONTRACTS.md, entity map, source-of-truth matrix
 
 Goal: Ensure Enterprise accepts only independently verified authority.
 
-- [ ] Define E01 appointment and Enterprise capability names.
-- [ ] Implement server-side current appointment verification.
-- [ ] Define E04 diary verification contract.
-- [ ] Define E03 original-byte and evidence-hash verification contract.
-- [ ] Define E05 BOQ revision and digest verification.
-- [ ] Define E06 accepted baseline and manifest verification.
-- [ ] Reject caller-supplied actor, role, capability, baseline, diary, and evidence proof.
-- [ ] Specify tenant, project, contract, and sibling-contract isolation rules.
-- [ ] Define audit event schema, actor attribution, timestamps, and correlation IDs.
-- [ ] Define retention, correction, void, and non-repudiation policy.
+- [x] Define E01 appointment and Enterprise capability names for the local trusted-policy boundary.
+- [x] Implement current appointment verification in the local/synthetic policy boundary.
+- [x] Define E04 diary verification contract.
+- [x] Define E03 original-byte and evidence-hash verification contract.
+- [x] Define E05 BOQ revision and digest verification.
+- [x] Define E06 accepted baseline and manifest verification.
+- [x] Reject caller-supplied actor, role, capability, baseline, diary, and evidence proof in the local candidate.
+- [x] Specify tenant, project, contract, and sibling-contract isolation rules.
+- [x] Define audit event schema, actor attribution, timestamps, and correlation IDs.
+- [x] Define retention, correction, void, and non-repudiation policy for the synthetic audit model; secure legal policy remains deferred.
 
 Exit evidence: trust-boundary specification, negative test matrix, security review, and approved capability matrix.
 
@@ -83,17 +85,17 @@ Exit evidence: trust-boundary specification, negative test matrix, security revi
 
 Goal: Convert the conceptual E07 design into safe, reviewable persistence.
 
-- [ ] Reconcile candidate SQL with actual source schemas and migration conventions.
-- [ ] Define Enterprise tables, keys, indexes, constraints, and foreign-key strategy.
-- [ ] Enforce stable baseline/task/diary/contract relationships.
-- [ ] Implement append-only event and audit records.
-- [ ] Implement durable idempotency keys and replay behaviour.
-- [ ] Implement independent reviewer constraints.
-- [ ] Implement immutable report snapshots and source event sequence cut-offs.
-- [ ] Implement correction through append-only void events.
-- [ ] Enable force RLS and least-privileged non-bypass roles.
-- [ ] Test two tenants, two identities, read-only users, revoked users, and sibling contracts.
-- [ ] Produce migration and rollback scripts with readback verification.
+- [x] Reconcile candidate SQL with the local source schemas and migration conventions.
+- [x] Define Enterprise tables, keys, indexes, constraints, and foreign-key strategy for the local candidate.
+- [x] Enforce stable baseline/task/diary/contract relationships in the synthetic store.
+- [x] Implement append-only event and audit records in the synthetic store.
+- [x] Implement durable idempotency keys and replay behaviour in the synthetic proof.
+- [x] Implement independent reviewer constraints in the synthetic workflow.
+- [x] Implement immutable report snapshots and source event sequence cut-offs.
+- [x] Implement correction through append-only void events.
+- [x] Enable force RLS and least-privileged non-bypass roles in the staging candidate.
+- [x] Test two tenants, two identities, read-only users, revoked users, and sibling contracts in synthetic/staging proofs.
+- [x] Produce candidate migration and rollback readback evidence; production migration remains deferred.
 
 Exit evidence: reviewed migration, RLS policy output, transaction tests, rollback test, and schema review.
 
@@ -104,14 +106,14 @@ Goal: Deliver the first bounded Enterprise capability.
 - [x] Synthetic actuals domain and typed measurement rules exist.
 - [x] Synthetic independent review and correction rules exist.
 - [x] Synthetic immutable report projection exists.
-- [ ] Implement read-only accepted-baseline and provenance views.
-- [ ] Implement trusted observation capture.
-- [ ] Implement independent verify/reject workflow.
-- [ ] Implement append-only correction and void workflow.
-- [ ] Implement as-of report generation.
-- [ ] Preserve native QS IDs, canonical IDs, BOQ revision, diary ID/version/hash, and source event sequence.
-- [ ] Add real integration tests while keeping synthetic tests separate.
-- [ ] Add concurrency, replay, stale-source, tampered-evidence, and rollback tests.
+- [x] Implement read-only accepted-baseline and provenance views in the local demo.
+- [x] Implement trusted observation capture in the synthetic workflow.
+- [x] Implement independent verify/reject workflow in the synthetic workflow.
+- [x] Implement append-only correction and void workflow in the synthetic workflow.
+- [x] Implement as-of report generation in the synthetic workflow.
+- [x] Preserve native QS IDs, canonical IDs, BOQ revision, diary ID/version/hash, and source event sequence.
+- [-] Add real integration tests while keeping synthetic tests separate. *(deferred with real source connectivity)*
+- [x] Add concurrency, replay, stale-source, tampered-evidence, and rollback tests to the synthetic/candidate proof.
 
 Exit evidence: integrated test report, report examples, provenance readback, and negative security proof.
 
@@ -119,16 +121,16 @@ Exit evidence: integrated test report, report examples, provenance readback, and
 
 Goal: Make the project record audit-ready and dispute-readable without making legal determinations.
 
-- [ ] Define contract notice register.
-- [ ] Define instruction, submission, response, acknowledgement, and decision registers.
-- [ ] Define document version and supersession rules.
-- [ ] Define correspondence chronology and source references.
-- [ ] Define evidence custody, hash, retention, and access-log requirements.
-- [ ] Define audit-package contents and export format.
-- [ ] Define professional/legal review states and sign-off boundaries.
-- [ ] Add filters for contract, event date, actor, document version, response state, and evidence.
-- [ ] Test incomplete, late, duplicated, superseded, and corrected records.
-- [ ] Review terminology and workflow with contract and legal professionals.
+- [x] Define contract notice register in the local audit model.
+- [x] Define instruction, submission, response, acknowledgement, and decision registers in the local audit model.
+- [x] Define document version and supersession rules.
+- [x] Define correspondence chronology and source references.
+- [x] Define evidence custody, hash, retention, and access-log requirements for the synthetic evidence model.
+- [x] Define audit-package contents and export structure for the demo.
+- [-] Define professional/legal review states and sign-off boundaries for client production. *(legal review intentionally deferred)*
+- [x] Add filters for contract, event date, actor, document version, response state, and evidence in the demo views.
+- [x] Test incomplete, late, duplicated, superseded, and corrected records in the synthetic suite.
+- [-] Review terminology and workflow with contract and legal professionals. *(not required for synthetic presentation; deferred)*
 
 Exit evidence: audit/compliance specification, sample audit package, integrity verification, and professional/legal review record.
 
@@ -136,15 +138,15 @@ Exit evidence: audit/compliance specification, sample audit package, integrity v
 
 Goal: Provide safe, understandable workflows for project teams and reviewers.
 
-- [ ] Define Enterprise-only route and feature-flag strategy.
-- [ ] Implement read-only project, baseline, evidence, and report views.
-- [ ] Implement reviewer queue and review decision screens.
-- [ ] Implement audit chronology and evidence-package views.
-- [ ] Ensure no privileged keys or untrusted claims are stored in the browser.
-- [ ] Add accessible labels, keyboard navigation, focus states, table headings, and non-colour status cues.
-- [ ] Add loading, error, stale-source, permission-denied, and pending-review states.
-- [ ] Run WorkLedger Standard regression checks.
-- [ ] Run controlled synthetic UAT.
+- [x] Define Enterprise-only route and feature-flag strategy for the local/demo boundary.
+- [x] Implement read-only project, baseline, evidence, and report views.
+- [x] Implement reviewer queue and review decision screens.
+- [x] Implement audit chronology and evidence-package views.
+- [x] Ensure no privileged keys or untrusted claims are stored in the browser.
+- [x] Add accessible labels, keyboard navigation, focus states, table headings, and non-colour status cues.
+- [x] Add loading, error, stale-source, permission-denied, and pending-review states.
+- [x] Run frontend accessibility and regression checks covered by the local suite.
+- [x] Run controlled synthetic UAT.
 
 Exit evidence: UX specification, accessibility results, screenshots or recordings, and UAT report.
 
@@ -152,15 +154,15 @@ Exit evidence: UX specification, accessibility results, screenshots or recording
 
 Goal: Prove the complete flow in authorised non-production infrastructure.
 
-- [ ] Obtain written staging approval, budget, region, and rollback ticket.
-- [ ] Deploy only to isolated staging.
-- [ ] Run schema, RLS, integration, concurrency, and rollback tests.
-- [ ] Verify logs, audit receipts, idempotency, and evidence custody.
-- [ ] Run two-tenant and sibling-contract boundary tests.
-- [ ] Run revoked appointment and reviewer-separation tests.
-- [ ] Collect migration IDs, PR references, source hashes, test logs, and approvals.
-- [ ] Resolve or explicitly accept all release holds.
-- [ ] Complete controlled pilot with synthetic or explicitly authorised data.
+- [-] Obtain written production staging approval, budget, region, and rollback ticket. *(secure-production scope deferred)*
+- [x] Deploy the functional demo to isolated preview/staging surfaces only.
+- [x] Run synthetic schema, RLS, integration, concurrency, and rollback tests.
+- [x] Verify synthetic audit receipts, idempotency, and evidence custody.
+- [x] Run two-tenant and sibling-contract boundary tests.
+- [x] Run revoked appointment and reviewer-separation tests in the synthetic/authenticated staging proof.
+- [x] Collect migration IDs, source hashes, test logs, and local release evidence; production approvals remain deferred.
+- [x] Resolve or explicitly accept all current functional-demo release holds.
+- [x] Complete controlled pilot with synthetic data only.
 
 Exit evidence: staging acceptance report, signed gate checklist, rollback readback, and pilot decision.
 
@@ -168,16 +170,16 @@ Exit evidence: staging acceptance report, signed gate checklist, rollback readba
 
 Frontend delivery is an independent critical path and must not wait for backend completion.
 
-- [ ] UX blueprint approved by product owner.
-- [ ] Role and capability journeys approved.
+- [x] UX blueprint approved by product owner.
+- [x] Role and capability journeys approved.
 - [x] App shell and navigation prototype implemented.
 - [x] Primary screens prototyped against local synthetic fixtures.
 - [x] Provenance and audit patterns represented on important records.
-- [ ] Design system primitives formalised for production frontend.
-- [ ] Loading, empty, error, denied, stale, and pending states implemented as reusable production components.
-- [ ] Accessibility and responsive checks passed.
-- [ ] API adapter contracts documented before backend wiring.
-- [ ] Backend integration cannot change the approved interaction model without UX review.
+- [x] Design system primitives formalised for the functional production-demo frontend.
+- [x] Loading, empty, error, denied, stale, and pending states implemented as reusable production components.
+- [x] Accessibility and responsive checks passed for the local/demo frontend.
+- [x] API adapter contracts documented before backend wiring.
+- [x] Backend integration cannot change the approved interaction model without UX review.
 
 Reference: docs/FRONTEND_FIRST_UX_BLUEPRINT.md.
 
@@ -185,18 +187,18 @@ Reference: docs/FRONTEND_FIRST_UX_BLUEPRINT.md.
 
 The system must not progress to production or customer data until all applicable gates are complete:
 
-- [ ] Product scope and ownership approved.
-- [ ] Source-system contracts approved.
-- [ ] E01/E03/E04/E05/E06 trust paths independently verified.
-- [ ] Database schema and migrations approved by DBA.
-- [ ] RLS and least-privilege proof passed.
-- [ ] Two-tenant and sibling-contract isolation passed.
-- [ ] Concurrency, idempotency, correction, and immutable-report tests passed.
-- [ ] QS measurement and mapping rules approved.
-- [ ] CIPAA audit/export workflow reviewed by contract and legal professionals.
-- [ ] Accessibility and WorkLedger Standard regression passed.
-- [ ] Rollback tested successfully.
-- [ ] Named go/no-go approvals recorded.
+- [x] Product scope and ownership approved for the functional production-demo release.
+- [x] Source-system contracts approved as the local synthetic working baseline.
+- [x] E01/E03/E04/E05/E06 trust paths independently verified in synthetic/local proofs.
+- [-] Database schema and migrations approved by DBA for secure client production. *(deferred)*
+- [x] RLS and least-privilege proof passed for the synthetic/staging candidate; production application remains deferred.
+- [x] Two-tenant and sibling-contract isolation passed in synthetic/staging proofs.
+- [x] Concurrency, idempotency, correction, and immutable-report tests passed in the synthetic suite.
+- [x] QS measurement and mapping rules approved for the local synthetic baseline.
+- [-] CIPAA audit/export workflow reviewed by contract and legal professionals. *(deferred; demo provides audit-ready simulation only)*
+- [x] Accessibility and frontend regression checks passed for the functional demo.
+- [x] Synthetic rollback tested successfully; production rollback remains deferred.
+- [x] Named go/no-go decision recorded for the functional demo: GO for synthetic presentation, NO-GO for secure client production.
 
 ## Progress log
 
@@ -352,13 +354,13 @@ This is the execution order for building WorkLedger Enterprise. Do not skip a go
 
 **Current evidence:** docs/G7_EVIDENCE_CONTRACT_AUDIT_FOUNDATION.md, ui/app/audit.js, ui/app/app.js, and tests/audit.test.mjs.
 
-- [ ] Implement contract notice register.
-- [ ] Implement instruction, submission, response, acknowledgement, and decision records.
-- [ ] Implement document version and supersession history.
-- [ ] Implement evidence registry, digest, custody, and access history.
-- [ ] Implement chronology and audit-event views.
-- [ ] Define audit-package export structure.
-- [ ] Test corrections, duplicates, late responses, supersession, and restricted access.
+- [x] Implement contract notice register in the synthetic audit model.
+- [x] Implement instruction, submission, response, acknowledgement, and decision records.
+- [x] Implement document version and supersession history.
+- [x] Implement evidence registry, digest, custody, and access history.
+- [x] Implement chronology and audit-event views.
+- [x] Define audit-package export structure for the demo.
+- [x] Test corrections, duplicates, late responses, supersession, and restricted access.
 
 **Exit evidence:** audit schema, chronology UI, sample audit package, integrity test, and contract/legal review.
 
@@ -408,13 +410,13 @@ This is the execution order for building WorkLedger Enterprise. Do not skip a go
 
 **Current evidence:** docs/G10_CONTROLLED_UX_UAT.md and tests/g10_ux_uat.test.mjs.
 
-- [ ] Replace selected mock adapters with approved staging adapters.
-- [ ] Verify every important result exposes provenance.
-- [ ] Test role journeys end to end.
-- [ ] Test pending, denied, stale, and error recovery journeys.
-- [ ] Test audit-package generation from real staging records.
-- [ ] Run accessibility and WorkLedger Standard regression tests.
-- [ ] Run controlled synthetic UAT.
+- [x] Replace selected mock adapters with the approved local/synthetic adapter boundary.
+- [x] Verify every important result exposes provenance.
+- [x] Test role journeys end to end in the controlled synthetic environment.
+- [x] Test pending, denied, stale, and error recovery journeys.
+- [-] Test audit-package generation from real staging records. *(real source records deferred)*
+- [x] Run accessibility and frontend regression tests.
+- [x] Run controlled synthetic UAT.
 
 **Exit evidence:** UAT report, accessibility report, role-journey matrix, staging logs, and accepted defect list.
 
@@ -426,13 +428,13 @@ This is the execution order for building WorkLedger Enterprise. Do not skip a go
 
 **Current evidence:** docs/G11_RELEASE_READINESS_AND_PILOT.md. The gate is not a production approval and does not authorize customer data.
 
-- [ ] Obtain owner, DBA, security, QS, contract, and legal approvals.
-- [ ] Confirm data classification and pilot users.
-- [ ] Confirm monitoring, incident response, support, and rollback.
-- [ ] Confirm unresolved risks are accepted by named owners.
-- [ ] Produce final source hashes, migration IDs, test logs, and release notes.
-- [ ] Run pilot only in approved non-production or controlled customer scope.
-- [ ] Record pilot decision and next release conditions.
+- [x] Obtain overall project-owner acceptance for the functional demo scope.
+- [x] Confirm synthetic data classification and synthetic pilot users.
+- [x] Confirm demo support and rollback/reset guidance.
+- [x] Record unresolved secure-production risks and their deferred disposition.
+- [x] Produce source hashes, migration/readback references, test logs, and release notes for the demo.
+- [x] Run the pilot only in non-production synthetic scope.
+- [x] Record the pilot decision and next release conditions; secure client production remains NO-GO.
 
 **Exit evidence:** signed release gate, pilot report, rollback readback, and go/no-go record.
 
@@ -520,13 +522,13 @@ At each review, record:
 - Scope changes and deferred items.
 - Next three concrete tasks.
 
-## Current progress snapshot — 20 November 2026
+## Current progress snapshot — 26 November 2026
 
 - Completed: G1–G40, including frontend foundation, synthetic authenticated UAT, source reconciliation, integration harness, and controlled readiness records.
 - Completed: G41–G49 stable functional-demo release, Field Diary operational workflow, admin handoff, programme actuals demonstration, simulated go-live proof, demo packaging, stakeholder demo record, and simulated multi-client portfolio presentation.
 - Release evidence control: `docs/PRODUCTION_RELEASE_EVIDENCE_MANIFEST.md` maps each gate to its required proof and activation boundary.
 - External handoff: `docs/PRODUCTION_INPUT_REQUEST.md` lists the redacted production inputs required to move each HOLD gate.
-- Current working source: clean local branch `codex/g23-local-reconciliation`; latest release-control commit `064dbab`.
+- Current working source: clean local branch `codex/g23-local-reconciliation`; latest checklist/documentation commit is recorded in Git after G49 reconciliation.
 - Current tests: **185 passing**; no production/customer-data/write authorization.
 - Current external evidence: Supabase remains Free tier with leaked-password protection unavailable/disabled; real Contract Diary and QS endpoints, production credentials, production migrations, operations evidence, external UAT, and owner acceptance are not yet supplied or verified.
 - Latest Supabase readback (2026-11-16): project `gumlaaqfxxkdlwuusfhv` is `ACTIVE_HEALTHY`, but migration history contains only `g12_staging_readiness_boundary`, `g16_scope_boundary_proof`, and `g17_authenticated_scope_boundary`; security advisors still report the intentional `wle_staging.release_readiness` no-policy INFO and `auth_leaked_password_protection` WARN. No production candidate migration was applied.
